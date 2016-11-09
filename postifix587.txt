@@ -1,0 +1,44 @@
+POSTFIX - ATIVANDO PORTA 587 SMTP
+
+
+  
+
+
+ 
+Dica rápida para ativar a porta 587 no seu servidor de e-mails, pois o Comitê Gestor da Internet no Brasil (CGI.br) determinou que a partir de 1 de janeiro de 2013, todos os provedores de acesso e empresas de telefonia não permitam mais o envio de e-mails através da porta 25. 
+
+Isto significa que todos os usuários que utilizam clientes de e-mails como Outlook, Windows Mail, Thunderbird ou Apple mail, entre outros, devem alterar sua a porta de envio de 25 para 587. Esta prática tem o intuito de diminuir o tráfego de spam no Brasil. 
+
+Bom, para quem administra servidores de e-mails e ainda está usando a porta 25 no SMTP é bom trocar para 587. 
+
+Para habilitar a porta 587, edite o arquivo master.cf no diretório /etc/postfix: 
+
+# vim /etc/postfix/master.cf 
+
+E remova o "#". 
+ #submission inet n       -       n       -       -       smtpd
+
+
+Deixe assim: 
+
+submission inet n       -       n       -       -       smtpd
+
+E após, reinicie o Postfix: 
+
+# /etc/init.d/postfix restart 
+
+Pronto, agora é só verificar: 
+
+# nmap localhost -p587
+ Starting Nmap 5.51 ( http://nmap.org ) at 2012-12-27 14:55 BRST
+Nmap scan report for localhost (127.0.0.1)
+Host is up (0.000037s latency).
+Other addresses for localhost (not scanned): 127.0.0.1
+rDNS record for 127.0.0.1: localhost.localdomain
+PORT    STATE SERVICE
+587/tcp open  submission 
+
+Nmap done: 1 IP address (1 host up) scanned in 0.03 seconds
+
+
+Bom, espero que ajude. 
