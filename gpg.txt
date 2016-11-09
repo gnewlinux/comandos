@@ -1,0 +1,48 @@
+apt-get install gnupg
+
+gpg --version
+
+# para criar uma chave privada
+gpg --gen-key
+
+# criar processos para ajudar na criacao da key
+ls -R /
+
+# apos gerar cria um diretorio .gnupg na home do usuario
+cd .gnupg
+
+# listar keys
+gpg --list-key	
+
+#                ## exportar chave para o arquivo    ### exportando nome
+# essa chave vai para quem quer criptografar algo a mim
+# enviando via ssh: scp -P 2222 chave_publica_gnewlinux.txt gnew@192.168.1.100:/
+gpg --armor --output "chave_publica_gnewlinux.txt" --export "gnewlinux@gmail.com"
+
+# para importar a chave:
+gpg --import nomedachave.txt
+
+# editar
+gpg --edit-key NOME DA CHAVE
+# PODE USAR O HELP
+# para grau de confianca
+trust
+5 # cnofia permanente
+
+# como proteger um arquivo com uma key publica
+gpg --recipient "NOME DA CHAVE" --output "nomedoarquivo.gpg" --encrypt "nomedoarquivo"
+
+# desincriptar
+gpg --decrypt-files nomedoarquivo.gpg
+
+
+# assinar com gpg
+echo "assinatura do gpg" > carta.txt
+gpg --clearsign carta.txt
+
+# ele vai criar um .asc que vc deve mandar com o .txt para provar que é real.
+
+
+
+
+chmod O+rw $(tty)

@@ -1,0 +1,49 @@
+# arquivos de confs
+/etc/passwd # info dos users
+/etc/groups # info dos grupos
+/etc/shadow # info + senha users
+/etc/skel # esqueleto de como vai ser a pasta de um novo user
+
+# usar o comando getent para gerenciar esses arquivos ex:
+getent passwd nomedouser
+
+# adicionar user
+adduser nomedousaurio
+# adicionar user já em outra pasta como padrao
+adduser --home /srv/homes/nomeuser nomeuser
+
+
+# deletar user
+deluser nomedousuario
+# usar -r para apagar a pasta home do user.
+deluser -r nomedousuario
+
+# alterar dados do usuario
+usermod --help
+# exemplo mudando pasta de um user não esquecer de criar a pasta antes.
+usermod -m -d /srv/homes/nomedouser nomedouser
+# exemplo mudar NOME COMPLETO do user
+usermod -c 'NOVO NOME' nomedouser
+
+# ou pode usar o:
+vipw # editar passwd truncado.
+# ou
+vipw -s # para arquivo shadow.
+
+# editar grupos
+vigr # editar grupos truncado
+vigr -s # senhas de grupo
+
+# editar diretorio skel criando 3 pastas
+mkdir /etc/skel/{Downloads,Documentos,Imagens}
+
+# Bloquear usuario
+usermod -L nomedouser
+# Desbloquear usuario
+usermod -U nomedouser
+
+# Usuario ser dono da pasta
+chown nomedouser pasta
+
+# Grupo a ser dono da pasta
+chgrp nomedogrupo nomedapasta

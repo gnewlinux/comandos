@@ -1,0 +1,13 @@
+wget
+http://software.jaos.org/slackpacks/14.2-x86_64/slapt-get/slapt-get-0.10.2t-x86_64-1.tgz
+
+installpkg slapt*.txz
+vim /etc/slapt-get/slapt-getrc
+
+WORKINGDIR=/var/slapt-get
+EXCLUDE=^aaa_elflibs,^devs,^glibc-.*,^kernel-.*,^udev,.*-[0-9]+dl$,i[3456]86
+SOURCE=https://packages.slackonly.com/pub/packages/14.2-x86_64/
+
+slapt-get -u
+slapt-get -i vlc
+

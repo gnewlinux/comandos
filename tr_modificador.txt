@@ -1,0 +1,7 @@
+# o comando tr serve para modificar uma saida.
+grep /etc/passwd | tr "e" "a"
+# ele vai subistituir todos os "e" por "a"
+
+# transformat tudo maiusculo em minusculo
+tr [:upper:] [:lower:]
+

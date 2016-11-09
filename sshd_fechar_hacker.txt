@@ -1,0 +1,8 @@
+# para descobrir se a alguem logado no ssh de forma externa de um:
+
+ps aux | grep sshd
+
+# se localizar alguma conexao verifique o pts aberto ex: pts/0 ou tty etc...
+# para finalizar a conexao utilize:
+
+fuser -k /dev/pts/0 # vai finalizar a conexao via ssh

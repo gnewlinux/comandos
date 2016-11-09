@@ -1,0 +1,11 @@
+# para criar chave ssh
+# maquina cliente
+
+ssh-keygen
+
+# enter - enter - enter.
+# Sua chave é criada em ~/.ssh/
+# a publica é a .pub
+
+# enviar key para o server
+ssh-copy-id -p2222 gnew@192.168.1.100

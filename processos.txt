@@ -1,0 +1,63 @@
+# Comando para gerencial processos
+###### filtragem de processos
+ps aux # listar processos
+pstree # lista em arvore
+pstree -p -a # pid mais comando completo e localizacao
+pgre comando # saber o pid do processo
+pdof comando # saber o pid do processo
+top
+htop
+lsof # todos os processos
+lsof /bin/bash # verificar quem esta usando.. etc.
+lsof -u root # somente do user root
+lsof -i # parecido com ss -nltp
+
+###### matar processos # lista de sinais
+
+kill -l # lista de sinais #princiapis 1, 9, 15, 18, 19.
+1 = reinicia o processo
+2 = interrompe o processo
+3 = fecha o processo
+9 = matar
+15 = pedir para fechar # padrao kill
+18 = pausar processo
+19 = retirar da pausa
+
+killall # matar todos os processos com mesmo nome
+
+pkill # matar todos os processos com o mesmo nome
+
+pidof $(pidof crond)
+
+
+###### matar programas graficos!!!
+xkill # usar com alt f2
+
+###### GERENCIAR ARQUIVOS EM SEGUNDO PLANO!
+jobs # listar processos em segundo plano
+Ctrl + Z # envia para segundo plano
+comando& # abre em segundo plano
+fg numerojobs # traz pra primeiro plano o numero
+bg numerojobs # enviar para segundo plano
+
+nohup # iniciar um programa em segundo plano sem prendelo ao terminal.
+ex: 
+nohup ping 8.8.8.8 & # cria um arquivo .out
+# muito bom para usar um comando em um ssh e poder deslogar.
+
+##### prioridades
+# com mais prioridade o processo usa mais cpu
+# com menos usa menos cpu
+#comandos:
+-20 maior prioridade
+19 menor prioridade
+
+renice # muda prioridade ex: renice 15 "PID"
+top # mostra prioridades
+htop # mostra prioridades
+nice # inicia comando com prioridade diferente ex:
+nice -19 nohup ping 8.8.8.8 &
+ps aux # gerencia processos
+ps la # mostra PRI e o NI
+
+

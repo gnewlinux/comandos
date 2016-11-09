@@ -1,0 +1,14 @@
+### Criar pacote txz no slackware
+
+mkdir /tmp/pacote
+
+# No diretorio que voce rodou o .configure do source.
+make DESTDIR=/tmp/pacote install
+
+# Ir para pasta de instalação
+cd /tmp/pacote
+# Tranformar dono e grupo das pastas
+chown -R root.root .
+
+# Nomeclatura do slack  =  nome-versão-arch-build.txz
+makepkg ../libotr-4.1.1-x86_64.txz 

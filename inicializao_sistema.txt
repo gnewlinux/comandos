@@ -1,0 +1,51 @@
+# CONHECER TIPOS DE SISTEMA DE INCIACAO
+# ENTENDER NIVEIS DE EXECUCAO do System V
+# CONFIGURAR SCRIPTS DE INICIALIZACAO
+# ADICONAR OU REMOVER SCRIPTS
+
+# SEQUENCIA
+INICIAZACAO DO SISTEMA - BIOS
+ESTAGIO 1 BOOTLOADER - MBR - Master Boot Record
+ESTAGIO 2 BOOTLOADER - LILO / GRUB
+KERNEL - LINIUX
+INIT - Usuaario do Espeço
+
+SYSTEM V ( DEBIAN ANTIGO )
+0 - DESLIGAR
+1,s,S - Single, ou seja, monousuario, root!
+2 - 5 Multiusuario # grafico ou texto. # Debian padrao 2
+6 - Reboot
+
+SYSTEM V ( CENTOOS )
+0 - DESLIGAR
+1,s,S - Single
+2 - Multiuser sem compartilhamente de arquivos NFS
+3 - Multiuser com rede e modo texto
+4 - Nao usado, porem pode ser personalizado pelo o user
+5 - Mltiuser completo ( parte grafica ) padrão.
+6 - Reboot
+
+# saber qual runlevel:
+runlevel
+
+# mudar runlevel
+init N # N é numero do init.
+
+# Sabendo o runlevel que está para mudar os arquivos da inicialização é só alterar em /etc/rcN.d/ 
+
+### INSERINDO E RETIRANDO SCRIPTS DE INICIALIZACAO
+# Os scripts ficam em /etc/init.d/
+
+insserv -rv rsyslog # retirando rsyslog
+insserv -dv rsyslog # adicionar scritpt na incializacao
+
+systemctl isolate runlevel1.target # modo recuperacao (root)
+systemctl isolate runlevel3.target # modo multiuser
+systemctl isolate runlevel5.target # modo grafico
+
+
+# para poder criar um novo sistema de incializacao ( CENTOS / DEBIAN 8 )
+ln -sf /lib/systemctl/system/multi-user.target /etc/systemd/system/default.target
+
+# ou no inittab
+id:3:initdefault:

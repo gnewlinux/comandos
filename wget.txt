@@ -1,0 +1,38 @@
+Por exemplo, com o simples comando abaixo, pode-se baixar um site inteiro: 
+
+ wget -r http://www.endereço_do_site 
+
+O comando irá criar um diretório com o nome do site, e salvar todos os itens do site em seu disco! 
+
+Alguns sites utilizam o arquivo "robots.txt", utilizados pelos buscadores e que tentam impedir que o conteúdo principal do site, que às vezes é exatamente o que lhe interessa, seja baixado por algum processo automático. 
+
+Mas nosso amigo wget sabe disso, e com o parâmetro correto, você conseguirá proceder com a automatização do download do conteúdo desejado: 
+
+ wget -r -erobots=off -A ".gif" http://www.endereço_do_site (imagens gif)
+ wget -r -erobots=off -A ".jpg" http://www.endereço_do_site (imagens jpg)
+ wget -r -erobots=off -A ".pdf" http://www.endereço_do_site (documentos PDF)
+ wget -r -erobots=off -A ".swf" http://www.endereço_do_site (animações ou jogos em flash) 
+
+- Outros parâmetros úteis do wget (básico) 
+
+Continuar um download interrompido: 
+
+ wget -c http://www.endereço_do_site/video.rmvb 
+
+Baixa apenas o tipo de arquivo que interessa no site (".php", ".asp", bem como algumas outras extensões, são convertidas para ".html" pelo próprio wget. Ou seja, ele não deixa escapar nada!) 
+
+ wget -r -A ".gif" http://www.endereço_do_site
+ wget -r -A ".html" http://www.endereço_do_site
+ wget - r-A ".pdf" http://www.endereço_do_site 
+
+Baixa todos os formatos de imagem em 'jpg', 'gif' e 'png': 
+
+ wget -r -p http://www.endereço_do_site --accept=JPG,jpg,GIF,gif,png,PNG 
+
+Baixa o conteúdo protegido por login e senha: 
+
+ wget ftp://login:senha@ftp.servidor.com 
+
+Limita a velocidade do download (Ex.: 100k): 
+
+ wget --limit-rate=100k http://www.endereço_do_site 

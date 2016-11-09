@@ -1,0 +1,7 @@
+# Verificar expiracao de senhas de usuarios.
+
+# Informações:
+chage -l nomedouser
+
+# Minimo 1 dia e maximo 30 dias para trocar senha.
+chage -M 30 -m 1 nomedouser

@@ -1,0 +1,48 @@
+# criar arquivo de configuração em ~/.megarc
+
+[Login]
+Username = user@gmail.com
+Password = pass
+
+#####
+
+Listar conteudo do mega:
+
+$ megals
+
+# reload
+
+$ megals --reload
+
+# download de arquivo
+
+$ megaget /Root/nomedoarquivo
+
+# apagar arquivo
+
+$ megarm /Root/nomedoarquivo
+
+# criar pastas
+
+$ megamkdir /Root/nomedapasta
+
+# upload de arquivos
+
+$ megasync --local nomedapasta --remote /Root/nomedapasta
+
+# upload
+
+$ megaput nomedoarquivo
+
+# obtendo links
+
+$ megals --links
+$ megals -l
+
+# download de links do mega
+
+$ megadl 'http://mega.....'
+
+# gerenciar tamanho de disco
+
+$ megadf --human

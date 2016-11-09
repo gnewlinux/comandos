@@ -1,0 +1,8 @@
+# sub shell seria um comando antes do comando a ser executado
+ex:
+
+kill $(pidof crond)
+# ele vai matar oq o pidof esta retornando(que seria o pid do crond)
+
+ou pode usar
+kill 'pidof crond'

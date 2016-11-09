@@ -1,0 +1,9 @@
+"at" é um programa para rodar um aplicativo a um horario especifico uma unica vez.
+
+at 19:00
+
+coloca o comando e sai com Ctrl + D
+
+para abrir um script usar o paremetro: -f
+
+at -f meuscript.sh

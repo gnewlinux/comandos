@@ -1,0 +1,63 @@
+##### PROCEDIMENTOS DE COTA PARA USUARIOS
+
+apt-get install quota quotatool
+
+### VERIFIQUE O ESQUEMA DE MONTAGEM DOS DISCOS COM
+df -h
+mount
+blkid
+
+### DEFINIR CONFIGURACOES DE COTA EM:
+vim /etc/fstab
+
+### ADICIONAR APOS O defaults, os seguinte comandos:
+defaults,usrjquota=aquota.user,grpjquota=aquota.group.jqfmt=vfsv0 0 2
+
+### REMONTAR PARTICAO
+mount -o remount /srv
+mount
+
+### FAZENDO CHECAGEM NO SISTEMA DE COTA
+-c Cria os arquivos de quota
+-u Checa quotas de usuarios
+-g Checa quotas de grupo
+-f Força checagem das quotas
+-m Força checagem no filesystem montando como leitura e escrita.
+
+quotacheck -mcug /srv
+
+### VERIFICAR SE OS ARQUIVOS DE CONTROLE FORAM CRIADOS
+ls -l /srv
+
+### RELATORIO DE QUOTA
+
+repquota -va
+
+### DESATIVE O SISTEMA DE QUOTAS
+quotaoff -v /srv
+
+### REFAÇA A CHECAGEM DO SISTEMA
+quotacheck -mcug /srv
+
+### REATIVE O SISTEMA DE QUOTAS
+quotaon -v /srv
+
+### EDITAR QUOTA DE USUARIO
+edquota -u nomedouser
+
+### EDITAR QUOTA PARA GRUPO
+edquota -g nomedogrupo
+
+### CAMPOS DO ARQUIVO DE CONF. POR BLOCO
+FILESYSTEM = Paricao
+BLOCKS = Tamanho real da particao em Kilobyes (nao alterar)
+SOFT = limite de quota em realacao ao espaço de disco.
+HARD = limite MAXIMO apos exeder a cota em SOFT o usuario tera o preiodo "grace time" para uso do limite hard.
+INODES = tamanho real utilizado em numero de arquvos (nao alterar)
+SOFT = limite de quota por numero de arquivos
+HARD = limite por numeros.
+
+### SIMULACAO
+18:52 video
+
+

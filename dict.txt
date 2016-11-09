@@ -1,0 +1,11 @@
+### SERVIDOR DE TRADUCAO LINUX
+
+### DICT
+
+apt-get install dict
+
+apt-get install dict-freedict-eng-por
+
+# para usar:
+
+dict word

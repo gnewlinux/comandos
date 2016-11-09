@@ -1,0 +1,27 @@
+### CRIANDO SERVIDOR DNS
+
+apt-get install bind9
+
+# verificando:
+
+netstat -nlup | grep 53
+
+# AJUSTANDO NAMESERVERS
+vim /etc/resolve.conf
+
+nameserver 127.0.0.1
+nameserver seuip
+
+# CRIAR ARQUIVO DE CONF
+vim /etc/bind/named.conf.local
+
+zone "ludiarts.com.br" {
+	type master;
+	file "db.ludiarts";
+};
+
+# ESSE ARQUIVO DE DB FICA EM /var/cache/bind/db.ludiarts
+# EDITE COMO NECESSARIO
+
+
+

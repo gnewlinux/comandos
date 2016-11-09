@@ -1,0 +1,5 @@
+for VARIAVEL in $(ls /home/)
+do
+echo "$VARIAVEL"
+done
+

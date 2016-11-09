@@ -1,0 +1,7 @@
+# Para mudar o estilo do teclado
+loadkeys br-abnt2
+# voce pode alterar o arquivo br-abnt2 com o alt gr
+# adicionando:
+
+altgr	keycode	16 = slash
+altgr	keycode 17 = question

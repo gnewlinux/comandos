@@ -1,0 +1,5 @@
+mount /dev/sda2 /mnt/debian
+mount -o bind /proc /mnt/debian/proc
+mount -o bind /sys /mnt/debian/sys
+mount -o bind /dev /mnt/debian/dev
+chroot /mnt/debian

@@ -1,0 +1,6 @@
+# permissoes ?
+
+# instalar lamp e php5-curl
+
+# adicionar a /etc/php5/apache2/php.ini
+extension=curl.so 

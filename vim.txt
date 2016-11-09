@@ -1,0 +1,24 @@
+:split # divide tela
+:vsplit # divide tela horizontal
+CTRL + W # navega entre telas
+:e # abrir um novo arquivo sem sair
+:r comando # executar comando
+:x # salvar e sair
+Shift ZZ # salvar e sair
+yy ou 10yy # copia
+p # cola
+set numer # numero nas linhas
+:%s/origem/destino/g # substituir
+Shit + G # ultima linha
+gg # primeira linha
+u # desfazer acoes
+Ctrl + U # refazer acoes
+/palavra # buscar palavra
+n # proxima busca
+set ic # ignora busca case sensitive
+syntax on # deixar vim colorido
+set hlsearch # destacao as palavras encontradas na busca
+set bg=dark # deixa as fontes em negrito
+
+.vimrc quem tem o arquivo de conf de user
+ou em /etc/vimrc ou /etc/vim/vimrc

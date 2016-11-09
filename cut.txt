@@ -1,0 +1,5 @@
+# cut serve para cortar saidas
+cut -d";" -f1 /etc/passwd
+
+-d = delimitador
+-f1 = primeira coluna

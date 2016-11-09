@@ -1,0 +1,6 @@
+# COMANDO PARA SINCRONIZAR ARQUIVOS / COPIAR POR SSH
+
+comando local -e (servico) login@ip:/local
+
+rsync /etc/hosts -e ssh gnew@192.168.1.100:/home/gnew/
+

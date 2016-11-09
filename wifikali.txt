@@ -1,0 +1,23 @@
+Commands
+
+usermod -a -G vboxusers username
+
+reboot
+
+id
+
+"Starting up virtual box and add the usb adapter to guest machine"
+
+"In kali linux"
+
+ifconfig 
+
+ifconfig stop wlan0
+
+iwconfig 
+
+iwconfig wlan0 mode monitor
+
+ifconfig wlan0 up
+
+airodump-ng wlan0

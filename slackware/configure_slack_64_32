@@ -1,0 +1,1 @@
+/configure --prefix=/usr --libdir=/usr/lib64 --build=x86_64-slackware-linux-gnu

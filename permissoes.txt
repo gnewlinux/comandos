@@ -1,0 +1,51 @@
+# permissoes de pastas e arquivos
+
+d rwxr-xr-x	dono	grupodono	pasta
+
+- rwx -> Permissão do dono
+- r-x -> Permissão para o Grupo dono
+- r-x -> Permissão para os outros
+
+r # LEITURA # 4 # + # u(user)
+w # ESCRITA # 2 # - # g(group)
+x # EXECUÇÃO # 1 # = # o(others)
+
+# Permissao em pastas significa que pode acessar.
+
+# Exemplos
+rwx - > 7 # Porque 4 + 2 + 1 = 7
+r-x - > 5 # Porque 4 + 0 + 1 = 5
+r-- - > 4 # Porque 4 + 0 + 0 = 4
+--x - > 1 # Porque 0 + 0 + 1 = 1
+-w- - > 2 # Porque 0 + 2 + 0 = 2
+--- - > 0 # Porque 0 + 0 + 0 = 0
+
+# Mudando as permisoes com chmod
+# Qualquer um dos comandos vai trasformar em:
+# d rwxrwx---
+# permissos para o dono, ao grupo, e nada para outros.
+
+chmod u=rwx,g=rwx,o= nomedapasta
+chmod g+w,o-rx nomedapasta
+chmod ug=rwx,0= nomedapasta
+chmod 770
+
+# Comando umask
+umask # mostra o numero de umask atual
+# Esse numero serve para ser subtraido do numero de permissao de uma pasta ou arquivo.
+# Exemplo:
+stat ~/Downloads
+# veja o numero dela: 755
+# O seu umask é 022
+# Pegue o valor total e faça menos seu umask
+777 - 022 = 775 # o mesmo valor da sua pasta criada pelo seu usuario.
+
+# Quando é um arquivo voce precisa tirar + 111
+# em arquivos sai o x.
+777 - 022 - 111 = 644 # essa é a permisao do seus arquivos.
+
+# Para mudar um umask de um usuario edite o arquivo .bashrc
+# Adicione na ultima linha.
+umask 002
+
+

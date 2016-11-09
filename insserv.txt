@@ -1,0 +1,7 @@
+# o insserv serve para adicionar ou remover scripts na inicializacao do debian
+
+ex:
+
+insserv -rv rsyslog # retira rsyslog
+insserv -dv rsyslog # adiciona rsyslog
+

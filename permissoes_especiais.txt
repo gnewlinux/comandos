@@ -1,0 +1,6 @@
+# Permissão especiais são para atribuir um unico usuario com algum tipo de persmissao fora do comum de USER GRUPO OTHERS.
+
+Suid Bit - 4 - S - Em binarios, no mometo, da execução herda o "poder" do dono.
+Suid Bit - 2 - s - Em pastas, permite herença de grupos
+Suid Bit - 1 - t - Em pastas, restringe remoção de arquivos e subpastas apenas para o dono.
+

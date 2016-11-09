@@ -1,0 +1,148 @@
+iptables -L (Padrao Tabela: Filter)
+
+# listar tabelas
+iptables -L -t filter
+iptables -L -t nat
+iptables -L -t mangle
+
+# ver aceitacoes
+iptables -t filter -S
+iptables -S
+
+iptables -nL
+# LISTAR NUMERO DA REGRA
+iptables -t filter -nL --line-numbers
+
+# definir entrada -P # POLITICA
+# vai fechar toda entrada
+iptables -P INPUT DROP
+# vai liberar
+iptables -P INPUT ACCEPT
+
+# exemplo
+iptables -t filter -A INPUT -s 127.0.0.1 -d 127.0.0.1 -j ACCEPT
+
+-A # APPEND ( ADICIONA REGRA NO FINAL DE LISTA
+-I # INSERT ( ADICIONA REGRA NO COMECO DA LISTA
+-d # DESTINO
+-s # SOURCE (ORIGEM)
+-D # DELETE
+-F # FLUSH ( DELETA TDS AS REGRAS DE UMA TABELA
+
+# SOBREVIVENDO NO IPTABLES
+iptables -t filter -nL --line-numbers
+
+# DELETAR A LINHA 1
+iptables -t filter -D INPUT 1
+iptables -t filter -nL
+iptables -t filter -A INPUT -j ACCEPT
+iptables -t filter -nL
+iptables -t filter -F
+iptables -t filter -nL
+iptables -t filter -A INPUT -j ACCEPT
+
+# GRAVAR IPTABLES
+iptables-save
+iptables-save > /root/firewall
+iptables -t filter -F
+iptables -t filter -nL
+cat /root/firewall
+iptables-restore /root/firewall
+iptables -t filter -nL
+iptables -t filter -F
+
+########### CRIANDO UM FIREWALL
+### BLOQUEANDO TD
+# COM ISSO A MAQUINA FICA SEM CONEXÃO NEM COM ELA MESMO.
+iptables -t filter -P INPUT DROP
+iptables -t filter -P OUTPUT DROP
+iptables -t filter -P FORWARD DROP
+
+# COM ISSO VOCE LIBERA TUDO DE FORA E DENTRO PAR LOCALHOST
+iptables -t filter -A INPUT -s 0/0 -d 127.0.0.1 -j ACCEPT
+iptables -t filter -A OUTPUT -s 0/0 -d 127.0.0.1 -j ACCEPT
+
+iptables -t filter -nL --line-numbers
+
+# LIBERAR PING
+iptables -t filter -A OUTPUT -p icmp -s 0/0 -d 0/0 -j ACCEPT
+# icmp-type 0 = 
+iptables -t filter -A INPUT -p icmp --icmp-type 0 -s 0/0 -d 0/0 -j ACCEPT
+iptables -t filter -A INPUT -p icmp --icmp-type 8 -s 192.168.1.0/24 -d 0/0 -j ACCEPT
+
+# LIBERAR PING INTERNET
+iptables -t filter -A OUTPUT -p icmp --icmp-type 8 -s 0/0 -d 0/0 -j ACCEPT
+iptables -t filter -A OUTPUT -p icmp --icmp-type 0 -s 0/0 -d 0/0 -j ACCEPT
+
+# LIBERAR PARA RESOLVER DNS
+iptables -t filter -A OUTPUT -p udp -s 192.168.1.150 -d 0/0 --dport 53 -j ACCEPT
+iptables -t filter -A INPUT -p udp -s 0/0 --sport 53 -d 192.168.1.150 -j ACCEPT
+# PARA TESTAR
+ping google.com.br
+
+# LIBERAR ACESSO INTERENET 80,443
+iptables -t filter -A OUTPUT -p tcp -m multiport -s 192.168.1.150 -d 0/0 --dport 80,443 -j ACCEPT
+iptables -t filter -A INPUT -p tcp -m multiport -s 0/0 -s 192.168.1.150 --sport 80,443 -j ACCEPT
+
+# LIBERAR SSH
+iptables -A INPUT -p tcp -s 192.168.1.103 --dport 22 -d 192.168.1.150 -j ACCEPT
+iptables -A OUTPUT -p tcp -s 192.168.1.150 --sport 22 -d 192.168.1.102 -j ACCEPT
+
+### COMPARTILHAR INTERNET
+
+vim /etc/sysctl.conf
+# DESCOMENTAR A LINHA 28
+net.ipv4.ip_forward=1
+
+# PARA VERIFICAR
+sysctl -p
+
+ou /proc/sys/net/ipv4/ip_forward
+
+## liberar acesso a internet na rede
+# tudo que vier da rede com destino a internet sera mascarado
+
+iptables -t nat -A POSTROUTING -s 192.168.1.0/24 -d 0/0 -j MASQUERADE
+
+# Tudo que vier da rede com destino a interent nas portas 80,443 
+iptables -t filter -A FORWARD -p tcp -m multiport -s 192.168.1.0/24 -d 0/0 --dport 80,443 -j ACCEPT
+
+# tudo que vier da internet nas portas 80,443 com destino a rede sera liberado o repasse de pacotes
+iptables -t filter -A FORWARD -p tcp -m multiport -s 0/0 --sport 80,443 -d 192.168.1.0/24 -j ACCEPT
+
+# LIBERAR CONSULTA DNS PARA MAQUINAS DA REDE
+iptables -t filter -A FORWARD -p udp -s 192.168.1.0/24 -d 0/0 --dport 53 -j ACCEPT
+
+iptables -t filter -A FORWARD -p udp -s 0/0 --sport 53 -d 192.168.1.0/24 -j ACCEPT
+
+
+### REDIRECIONAMENTO DE PORTAS
+
+# Tudo que vier da internet com destino ao server na porta 52000 sera redirecionado para outra maquina na porta 22
+
+iptables -t nat -A PREROUTING -p tcp -s 0/0 -d 192.168.1.150 --dport 52000 -j DNAT --to 192.168.1.161:22
+
+# tudo que vier da internet com destino ao computador permito que repasse os pacotes
+iptables -t filter -A FORWARD -p tcp -s 0/0 -d 192.168.1.161 --dport 22 -j ACCEPT
+iptables -t filter -A FORWARD -p tcp -s 192.168.1.161 --sport 22 -d 0/0 -j ACCEPT
+
+##### REVISAO
+
+-P # POLITICA CHAIN
+-t # TABELA
+-A # ADICIONA COMO ULTIMA REGRA NO CHAIN
+-I # ADICIONA COMO PRIMEIRA REGRA NO CHAIN
+-D # DELETA REGRA
+-F # LIMPA REGRAS NO CHAIN
+-s # PACOTE DE ORIGEM
+-d # PACOTE DESTINO
+--dport # PORTA DESTINO
+--sport # PORTA ORIGEM
+-p # PROTOCOLO (tcp,udp,icmp..etc)
+
+### COMENTARIOS NO IPTABLES
+iptables -t filter -A INPUT -s 0/0 -d 127.0.0.1 -j ACCEPT -m comment --comment "Aceita tudo Loopback"
+
+### REGISTRANDO LOG ### OS REGISTROS FICAM EM /var/log/messages
+iptables -t filter -A INPUT -s 0/0 -d 192.168.1.150 -p tcp --dport 22 -j LOG --log-prefix '[ACESSO SSH]'
+

@@ -1,0 +1,11 @@
+# ALGUMAS TECNICAS DO SSHD
+
+# Mudança de portas:
+
+Port 2222 # para dificultar os scans
+
+Protocol 2 # protocolo de segurança
+
+PermitRootLogin no # para bloquear o login como root
+
+ClienteAliveInterval 120 # determinar segundos inativos o deslog.

@@ -1,0 +1,72 @@
+------------------------------------
+### LINGUAGEM SQL
+
+# COMANDO BASICOS
+# LOGAR
+
+# mysql -u root -p
+### senha
+
+# mostrar databases
+show databases;
+
+# criar nova base
+CREATE database nomedobanco;
+
+# acessar banco
+use nomedobanco;
+
+# mostrar tabelas
+show tables;
+
+# criar tabela
+# AUTO_INCREMENT ## Auto incrementar ++
+# TIMESTAMP # Data e hora
+
+CREATE TABLE log (
+id INT NOT NULL AUTO_INCREMENT,
+inicio TIMESTAMP,
+fim TIMESTAMP,
+server VARCHAR(100),
+descricao INT NOT NULL,
+arquivo VARCHAR(100),
+status VARCHAR(5),
+PRIMARY KEY (id));
+
+# visualizar tabela
+desc nomedatabela;
+
+# CRIANDO USUARIO E LIBERANDO ACESSO A BASE
+GRANT ALL PRIVILEGES ON tabela.* TO usuario@ip IDENTIFIED BY 'identificacao' WITH GRANT OPtION;
+
+# INSERINDO DADOS NA TABELA
+INSERT INTO tabela (inicio,fim,server,arquivo,status) VALUES ('2011-06-09 15:21:21','2011-06-09 15:25:21','intranet','etc-2011-06-09-15:21:21.tar.gz','OK');
+
+# RELOAD DOS PRIVILEGIOS
+FLUSH PRIVILEGES;
+
+# CONSULTAR DADOS DE UMA TABELA
+select * from nomedatabela;
+
+# CONSULTA COM FILTROS
+SELECT server,inicio,fim FROM tabela WHERE posicao='OK';
+
+# PESQUISA ORDENADA
+select * from tabela ORDER BY campo;
+
+# MUDAR CAMPO DA TABELA
+UPDATE tabela SET campo='insercao' WHERE campo2='insercao2';
+
+# APAGAR CAMPO DA TABELA
+DELETE FROM tabela WHERE campo='campo';
+
+# FAZER BACKUP DO SQL
+# -h # HOST A SER FEITO O DUMP
+# -u # USUARIO
+# -p # SENHA
+# backup # NOME DO BANCO A SER FEITO O DUMP
+mysqldump -h localhost -u root -pSENHA backup > backup.sql
+
+# RESTAURAR O BACKUP
+mysql -h localhost -u root -pSENHA backup < backup.sql
+

@@ -1,0 +1,3 @@
+echo "TEXTO A SER ENVIADO PARA TODOS OS USERS LOGADOS" | wall
+
+w # listar users logados

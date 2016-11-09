@@ -1,0 +1,5 @@
+# Adicionar grupos
+addgroup nomedogrupo
+
+# Grupo a ser dono da pasta
+chgrp nomedogrupo nomedapasta

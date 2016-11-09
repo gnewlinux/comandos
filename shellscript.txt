@@ -1,0 +1,137 @@
+### ALGUMAS DICAS DE SHELLSCRIPT
+
+# Para montar um script sempre se incia com a abertura do shell
+
+#!/bin/bash
+
+# Alguns comandos basicos:
+# echo - exibe texto na tela - echo "texto"
+# sleep - da um tempo antes do prox. comando - sleep segundos
+# read - recebe valor de uma variavel - read variavel
+# > - Escreve um arquivo texto - echo "texto" > /home/gnew/texto
+# >> - Escreve na ultima linha - echo "texto" >> /home/gnew/texto
+# & - roda comando em 2 plano - comando&
+# exit - sai do script - exit
+# touch - cria arquivo vazio - touch nome do arquivo
+# # - comentario - # comentario
+
+# um script depois de criado tem que dar permissao de execução
+chmod +x shell.sh
+# para rodar o script
+./shell.sh
+
+#### VARIAVEIS
+!!!!!!!!!!!!!!!!!!!!!!!!!
+# Nomes de variaveis nuncam comecam com numeros e acentuacao sao é aceita.
+
+VARIAVEL=conteudo
+echo $VARIAVEL
+
+# Sub-shell $()
+SOMA=$(expr $N1 + $N2)
+# ou ''
+echo "Abrindo subshell 'expr $N1 + $N2'"
+
+# VARIAVEIS ESPECIAIS # TRABALHANDO COM PARAMETROS
+
+# $1 -> Armazena primeiro parametro
+# $2 -> Segundo parametro
+# $3 -> ...
+
+# Exemplo:
+echo $1 $2 $3
+
+# Executar
+./script.sh Primeiro Segundo Terceiro
+
+# Saida
+Primeiro Segundo Terceiro
+
+$* -> Armazena todos os parametros sem limites
+$# -> Armazena a quantidade de parametros passados
+$0 -> Armazena o nome do script executado
+
+# A variavel $? é conhecida para testar o valor de retorno de qualquer comando quando mostrada apos a execucao, ex:
+ls /etc
+echo $?
+# 0 # comando executado com sucesso
+testando
+echo $?
+# 127 # diferente de 0, algum problema na execução
+
+codigo - significado - exemplo
+0 - Nenhum erro - echo
+1 - representa erros comuns - echo $((1/0))
+2 - erro de entrada do shell - ls -
+126 - comando nao executavel (sem permissao) - touch a; ./a
+127 - comando nao encontrado - echooo
+128 - parametro noa decimal para o exit - exit 1.0
+130 - programa interrompido com Ctrl + C - -
+255 - Parametro para exit fora da faixa de 0 a 255 - exit -1
+
+
+##### COMANDO TEST
+
+# exemplo com strings
+test "curso" = "curso" ; echo $?
+
+# exemplo com variavel
+test -z $CURSO ; echo $?
+
+# exemplo com expressoes matematicas
+test 6 -eq 6 ; echo $?
+
+#### OPERADORES STRING
+== - igual
+!= - diferente
+
+#### OPERADORES NUMERICOS
+num1 -eq num2 - IGUAL
+num1 -ne num2 - DIFERENTE
+num1 -gt num2 - MAIOR QUE
+num1 -ge nem2 - MAIOR OU IGUAL
+num1 -lt num2 - MENOR QUE
+num1 -le num2 - MENOR OU IGUAL
+
+#### OPERADORES ARQUIVOS
+-e - Arquivo existe
+-nt - Arquivo é mais novo
+-ot - Arquivo é mais antigo
+-d - Diretorio existe
+
+#### OPERADORES MATEMATICOS
++ - Soma
+- - Subtracao
+* - Multiplicacao
+/ - Divisao 
+> - Maior
+>= - Maior igual
+< - Menor
+<= - Menor igual
+
+
+### COMANDO IF
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

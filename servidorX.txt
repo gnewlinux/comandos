@@ -1,0 +1,30 @@
+# SERVIDOR X
+
+# chamadas:
+# HARDWARE
+# SERVIDOR XORG
+# DISPLAY MANAGER ( GMD | KDM | XDM )
+# CAMADA USUARIO
+
+apt-get install xorg
+
+X --version
+
+startx
+
+exit
+
+# gerando arquivo de configuração
+Xorg - configure
+# copiando para etc/x11
+cp /root/xorg.conf.new /etc/X11/xorg.conf
+
+######
+##### INSTALANDO GERENCIADOR DE LOGIN
+apt-get install xdm kdm gdm3
+
+# para visualizar informacoes de janelas
+xwininfo
+
+
+

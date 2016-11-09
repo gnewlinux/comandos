@@ -1,0 +1,18 @@
+Compartilhar telha (shell)
+
+instalar o screen
+apt-get install screen
+ou 
+yum install screen
+
+screen # abra o screen na maquina server
+
+# agora acesse o servidor remotamente com o mesmo user que abriu o screen no servidor
+
+ex:
+ssh -l gnew 192.168.1.100
+
+# assim que logar digite:
+screen -x
+
+# pronto! os dois users estão vendo o shell de cada um podendo interagir.!!!!

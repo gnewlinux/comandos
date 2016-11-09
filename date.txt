@@ -1,0 +1,7 @@
+# Comando date é para mostrar a data e horas
+
+# Para alterar a data
+date MMDDYYYY
+
+# ex
+date 15031987
