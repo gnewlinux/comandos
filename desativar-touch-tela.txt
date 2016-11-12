@@ -1,0 +1,17 @@
+# INSTALAR PACOTE XINPU
+apt-get install xinput
+
+# LISTAR
+xinput --list
+
+# LOCALIZE O ID CORRETO E VEJA SE ESTA ATIVO
+xinput --list-props 11
+
+# MUDE O PARAMETRO DEVICE ENABLE
+xinput set-prop 'USBest Technology SiS HID Touch Controller' 'Device Enabled' 0
+
+# CONFIRA A MUDANÇA
+xinput --list-props 11
+
+# PARA VOLTAR É SÓ COLOCAR O PARAMETRO 1
+
