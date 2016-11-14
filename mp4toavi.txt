@@ -1,0 +1,1 @@
+ffmpeg -i filename.mp4 -vcodec mpeg4 -acodec ac3 -ar 48000 -ab 192k filename.avi

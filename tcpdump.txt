@@ -1,3 +1,63 @@
+### TCPDUMP
+
+OPCOES PRINCIPAIS
+-i interface
+# Especifica interface se caso quer capturar com todas utilize o parametro:
+any
+
+-c num
+# sair apos capturar certo numero de pacotes
+
+-D 
+# mostra lista de interfaces que estao disponiveis
+
+-n
+# nao realizar resolucao de nomes
+
+-r arquivo
+# ler o arquivo
+
+-w arquivo
+# grava no arquivo
+
+-X
+# mostra em Hexa e ASCCI
+-XX
+# mostra cabecalho Ethernet
+
+src IP/NOME
+# Captura pacotes originarios apenas do ip
+
+dst IP/NOME
+# Caputra pacotes com o destinatario especifico
+
+greater BYTES, > BYTES
+# caputura pacotes que sejam maiores
+
+less BYTES, < BYTES
+# captura pacotes que sejam menores
+
+port NUM
+# Especifica porta
+
+portrange A-B
+# intervalo de portas
+
+A and B
+# portas A e B
+
+A or B
+# portas A ou B
+
+not A
+# menos porta
+
+-v 
+# verbosa
+
+-vv
+
+## ALGUNS EXEMPLOS
 tcpdump -n -i eth0 host 192.168.1.1 and port 22 # SSH
 
 tcpdump -n -i eth0 port 53 # DNS

@@ -1,0 +1,16 @@
+3. Visualizar os HDs reconhecidos pelo sistema operacional.
+# fdisk -l
+
+4. Montar a partição do HD externo onde será copiado a imagem do HD de origem.
+# mount /dev/sdb1 /mnt
+No meu caso, a partição do HD externo esta referenciada pelo device /dev/sdb1. Você deverá identificar a partição usando o comando fdisk exemplificado anteriormente.
+
+5. Criar a imagem do HD de origem e armazená-lo no HD externo:
+# dd if=/dev/sda conv=sync,noerror bs=64K > /mnt/sda.img
+
+Perceba que não utilizamos compactação na geração da imagem. Assumimos que o disco externo tenha capacidade suficiente para armazenar a imagem completa. O parâmetro “bs=64k” é o tamanho do bloco 64×1024 Bytes. Usar um tamanho grande acelera o processo de cópia. Já o parâmetro “conv=sync,noerror” diz ao dd para continuar copiando caso encontre problemas de leitura.
+
+6. Para recuperar a imagem:
+# dd if=/mnt/sda.img of=/dev/sda conv=sync,noerror bs=64k
+
+Este processo funciona independente do tipo de sistema de arquivos presente no HD de origem

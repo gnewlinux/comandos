@@ -1,0 +1,3 @@
+### INSTALAR O PAVUCONTROL
+
+apt-get install pavucontrol

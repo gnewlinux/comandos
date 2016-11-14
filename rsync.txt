@@ -4,3 +4,23 @@ comando local -e (servico) login@ip:/local
 
 rsync /etc/hosts -e ssh gnew@192.168.1.100:/home/gnew/
 
+### COMANDOS BASICOS
+rsync [opcoes] origem destino
+
+# comando simples
+-h # modo humanos
+-v # verbose
+-a # copiar tb diretorio e preservar timestamp e permissoes
+-u # update # enviar apenas arquivos diferentes
+--delete # excluir tds arquivo que nao estejam presentes na origem, tirar o -u nesse caso.
+### filtrar elementos somentes .mp3
+# include
+--include '*.mp3'
+# exclude
+--exclude '*'
+rsync -ahv --include '*.mp3' --exclude '*' ./ nomedouser@192.168.1.100:/home/nomedouser
+
+### ele vai copiar os arquivos da pasta para o servidor ### não copia diretorio ## nao preserva timestamp nem permissoes dos aqruivos
+rsync -hv ./* nomedousuer@192.168.1.100:/home/nomedouser/Backup
+
+
