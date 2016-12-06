@@ -28,8 +28,8 @@ apt-get install openbox openbox-menu compton slim tint2 pcmanfm gpicview conky -
 #-- NETWORK INSTALL
 apt-get install network-manager network-manager-gnome -y
 
-#-- LXTERMINAL
-apt-get install lxterminal -y
+#-- LXTERMINAL GMRUM
+apt-get install lxterminal gmrun -y
 
 #-- CONFIG OPENBOX
 mkdir /home/$LOGIN/Imagens
