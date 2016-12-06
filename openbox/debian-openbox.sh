@@ -17,13 +17,6 @@ apt-get install xorg -y
 X -configure
 cp ~/xorg.conf.new /etc/X11/xorg.conf
 
-#-- INSTALL GIT
-apt-get install git -y
-#-- CLONE REPO
-cd ~/
-git clone http://github.com/gnewlinux/comandos.git
-cd comandos/openbox/
-
 #-- SYNAPTICS INSTALL
 apt-get install xserver-xorg-input-synaptics -y
 #-- CONFIG SYNAPTICS
