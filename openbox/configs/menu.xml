@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<openbox_menu xmlns="http://openbox.org/"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://openbox.org/
+                file:///usr/share/openbox/menu.xsd">
+	
+<menu id="applications" label="Apps" execute="openbox-menu lxde-applications.menu"></menu>
+
+<menu id="root-menu" label="Openbox 3">
+	
+<menu id="applications" />
+
+<separator />
+
+<item label="Termimnal">
+    <action name="Execute"><execute>lxterminal</execute></action>
+</item>
+
+<item label="WebBrowser">
+    <action name="Execute"><execute>x-www-browser</execute></action>
+</item>
+
+
+<item label="Logout">
+	<action name="Exit">
+	<prompt>yes</prompt>
+	</action>
+</item>
+
+<item label="Run...">
+    <action name="Execute">
+    <command>gmrun<command>
+    </action>
+</item>
+	
+</menu>
+
+</openbox_menu>
