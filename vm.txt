@@ -1,0 +1,4 @@
+VBoxManage list vms
+
+VBoxManage startvm "451\4451 - Security Cloud"
+VBoxManage startvm "451\4451 - File Server"
