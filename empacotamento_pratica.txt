@@ -1,0 +1,309 @@
+### Primeiro fazer a jaula
+### debootstrap é o instalador do debian
+
+# mkdir /Jaula-Sid
+# debootstrap sid /Jaula-Sid/ http://ftp.br.debian.org/debian
+
+# chroot /Jaula-Sid/
+
+### Já na jaula vamos configura-la
+
+# echo proc /proc proc defaults 0 0 >> /etc/fstab
+
+### Editar /etc/bash
+
+# wget http://bit.ly/bash-rc-txt
+# cat bash-rc-txt >> /etc/bash.bashrc
+
+### Lembre-se de alterar as confs no bash.bashc como nome, email, gpg...
+### Vamos instalar os seguintes pacotes
+
+# apt-get install blhc devscripts dh-make dput-ng locales mc quilt renameutils spell tree locales
+
+# vamos setar idioma: pt_BR + UTF8 e define como UTF8
+# agora definir fuso horario - America / Sao Paulo
+# dpkg-reconfigure locales tzdata
+
+# para remover os .deb
+# apt-get clean
+
+vim /etc/lintianrc
+
+### Descomentar linhas
+# display-info = yes
+# pedantic = yes
+# display-experimental = yes
+
+# exit
+
+### exportar chave
+gpg --export NUMERODACHAVE > /tmp/diegosarzi.pub
+gpg --export-secret-keys NUMERODACHAVE > /tmp/diegosarzi.key
+
+mv /tmp/diegosarzi.* /jaula-sid/
+
+## Enjaular novamente
+chroot /jaula-sid
+
+## importar chaves
+gpg --import diegosarzi.*
+
+rm diegosarzi.*
+
+exit
+
+## Fazer um backup da jaula compactado
+tar -cvjf /jaula-sid.tar.bz2 --exclude='*/proc/*' --exclude='*/apt/lists/*dists*' /jaula-sid/
+
+## Agora voce pode sempre ter a jaula!
+## Só descompactar dar o chroot depois apt-get update && apt-get dist-upgrade
+
+## PROXIMO PASSO é DEBIANIZACAO
+chroot /jaula-sid
+
+## criar um diretorio para o pacote que vai empacotar
+mkdir pkg-pcapfix
+
+# fazer o download do source
+wget https://f00l.de/pcapfix/pcapfix-1.0.2.tar.gz
+
+# descompactar
+tar -xvf pcapfix-1.0.2....
+
+cd pcapfix...
+
+## NORMA DE SOFTWARE
+## NOME-VERSAO
+
+## SE caso o nome nao estiver no padrao, vc descompacta ele, renomeia o nome da pasta para o padrao ex: programa-1.0 e depois recria o tar.gz dele corretamente tar -cvzf programa-1.0.tar.gz programa-1.0
+
+## Proximo passo entrar na pasta e conferir a licença do programa.
+## Todos elementos tem que ser livres!!!!! Não se esqueça!
+## Arquivos, licenciamento, dependencias etc!
+## Existe um programa para fazer a pesquisa que é o:
+licensecheck *
+
+## ou use o egrep -s " nao reporta erro (silencioso" -r (recursive) -i (maisculo ou minisculo) A25 ( After - 25 linhas depois ) 
+egrep -sriA25 '(public dom|copyright)' *
+
+## Precisa analitar todos os arquios para ver que licença ele tem, precisa ser GPL2 ou GPL2+ ou GPL3 ou GPL3+, enfim, precisa ver tudo para ver como vai assinar!
+
+### BOM VAMOS Là!!!
+## Já sabe que é por exemplo GPL3
+
+dh_make -f ../pcapfix-1.0.2.tar.gz -c gpl3
+
+# se caso a versao nao esteja correta no tar.gz (source) voce pode colocar um -v1.0.2 o numero da versao para que ele corrija no dh_make
+
+# vamos setar single
+s
+
+# mostra oq ele pegou entre licenca nome, versao etc... e com isso é gerado o diretorio debian
+# na pasta abaixo foi criado o .orig.tar.gz que é uma copia do source.
+# e tambem o direito debian!!! entre nele!
+cd debian
+
+## Dentro deles temos uma serie de arquivos
+CHANGELOG - ESSE É O CHANGELOG DO EMPACOTAMENTO " aqui que vc vai avisar o que vc fez sobre o empacotamento "
+COMPAT - ELE VAI DIZER QUAL É A COMPATIBLIDADE DE DEBIAN-HELPER
+CONTROL - ELE VAI TER 2 PARTES A SUPEROR TRATA DO CODIGO FONTE, INFERIOR DO BINARIO E AONDE VOCE ENTRA COM DESCRICOES ETC.
+COPTRIGHT - AONDE VOCE VAI ESCREVER SOBRE A PARTE DE LICENCIAMENTO
+DOCS - RESPONSAVEL PARA INSTALAR DENTRO DO PACOTE DEBIAN
+INIT.D.EX - EXEMPLO DE INIT.D
+MANPAGE.1.EX - EXEMPLO DE MANPAGE
+MANPAGE.SGML.EX - EXEMPLO DE MANUAL
+MANPAGE.XML.EX - EXEMPLO DE MANUAL.XML
+### Se o source nao tiver manual vc precisa criar um pra ele, usando a linguagem CROFF GNU Roff, mas pode utilizar o txt2man para construir o manual com mais facilidade. Lembrando que existem os niveis de manuais, um programa simples é nivel um, então o manual deve ter o nomedoprograma.1 
+MENU.EX - UTILIZADO QUANDO TIVER PROGRAMAS DE ICONES NO AMBIENTE GRAFICO
+### NELE VC VAI PRECISAR CONFIGURAR O .desktop e o generico que esta lá ja no ex, lembrando de adicionar: icon="/usr/share/pixmaps/nomedoprograma.xpm"
+CRON.EX - PARA CASO PRECISA RODAR TODO DIA
+DEFAULT.EX - USAR DEFINICOES DE SERVICOS
+DOC-BASE.EX - LISTAR DOCUMENTOS QUE VC ESTA INSTALANDO TIPO BASICO
+POST..EX - ACOES QUE VAO OCORRER DEPOIS DA INSTALACAO, DEPOIS DA REMOCAO DO PACOTE.
+PRERM..EX - ANTES DA INSTALACAO E ANTES DA REMOCAO.
+README.Debian - CASO PRECISE ESCREVER ALGUMA NOTA ADICIONAL SOBRE O FUNCIONAMENTO DO PACOTE PARA O USER FINAL, EX. ESSE PACOTE TEM ALGUNS RECURSOS QUE NAO ESTAO DISPONIVEL NA MAN PAGE VOCE PODE ACHAR MAIS RECURSOS EM ... ETC
+README.SOURCE - ADICIONAR ALGO A MAIS SOBRE O CODIGO FONTE, PARA EXPLICAR ALGUMA ALTERACAO QUE FOI FEITO POR MOTIVOS SIMPLES, POR EXEMPLO UM ARQUIVO ESTAR NO CODIGO FONTE DE EXEMPLO E NAO SER NECESSARIO PARA O EMPACOTAMENTO... ENFIM...
+RULES - É QUE FAZ GERAL! GRANDE MAGICA DE EMPACOTAR
+FORMAT - FORMATO QUE ESTAMOS USANDO PARA EMPACOTAR
+WATCH.EX - ELE FICA OLHANDO O UPSTREAM PARA VER SE SAI VERSAO NOVA E TE MOSTRA NO SEU QA ( GERENCIAMENTO SEU DE PACOTES PELO DEBIAN )
+
+##############
+
+mkdir /tmp/pcapfix
+
+# vamos mover alguns arquivos que nao vamos usar nesse caso!
+mv init.d.ex manpage.* menu.ex pcapfix.* post.* pre* README.* /tmp/pcapfix
+
+mv watch.ex watch
+
+mcedit changelog
+
+# quando tiver congelado o debian tem que mandar para experimental fora isso sempre na unstable
+# EM CLOSES COLOQUE O NUMERO DO BUG QUE VC ABRIR COM O reportbug ( podendo eliminar o resto da linha <nnn is the bug nember of your ITP>
+# Sempre para fechar os bugs vc escreve a descricao e coloca (Closes: #nnnn) na frente!
+# para pesquisar os bugs é em bug.debian.org
+# SE A SUA DESCRICAO SERVE PARA FECHAR EXEMPLO 2 BUGS NO DEBIAN E UM NO UBUNTU FICARIA:
+(Closes: #123455, #123455, LP: #123456)
+
+# ARQUIVO CONTROL!!!!
+# NO CONTROL VAMOS NA PRIMEIRA PARTE DEDICADA AO CODIGO FONTE E ABAIXO UM BINARIO QUE É GERADO.
+# SECTION: VC OBTEM packages.debian.org AQUI VEJA OS PACOTES DA DISTRIBUICAO INSTAVEL, VOCE TEM QUE VER AONDE VOCE VAI ENQUADRAR O SEU PROGRAMA, NO CASO DO PCAPFIX ELE CORRIGE DUMPS DE REDE: Network CLICA NELA E VAI SABER O NOME DA SUBSCTCION  QUE NO CASO É net
+# HOMEPAGE - DO AUTOR
+# VCS-GIT - GIT
+# VCS-BROWSER - GIT
+
+ARCHTETURE - ANY PARA C OU C++ ALL PARA PYTHON, PHP
+DEPENDS - DIGAMOS QUER PRECISA DO APACHE PARA RODAR O PROGRAMA, VOCE COLOCAR UMA VIRGULA NO FINAL E O NOME DO PROGRAMA, EX: }, apache2
+DESCRIPTION: - COLOCAR DESCRICOES, GERALMENTE DADO PELO AUTOR
+### A PRIMEIRA DESCRICAO CURTA É UM COMEÇO APENAS
+### A SEGUNDA DESCRICAO TEM QUE VIR IDENTADA COM UM ESPAÇO E TAMBEM TER QUEBRA DE LINHAS MAIS OU MENOS EM 60 CARACTTERES, SE TIVER UM ESPAÇO VOCE TEM QUE COLOCAR . ENTRE UMA LINHA E OUTRA
+
+### ARQUIVO COPYRIGHT!!!!
+# COLOCAR O SITE DO SOURCE
+# COLOCAR CABECARIO DO COPYRIGHT EXEMPLO
+Copyright: 2012-2014 Robert Krause <ruport@f00l.de>
+Licence: GPL-3+  ### sem o .0
+# RETIRE OS COMENTARIOS NO FINAL DO ARQUIVO
+
+### ARQUIVOS DOCS!!!!!!!
+### NO ARQUIVO DOCS VAI TODOS AQUELES DOCUMENTOS DO AUTOR COMO README, ETC...
+## PRECISAMOS ANALIZAR TODOS E VER QUAL SAO RELEVANTES, POR EXEMPLO, COPYRIGHT E INSTALL NAO SAO MAIS RELEVANTES, GERALMENTE VAMOS DEIXAR APENAS O README NO DOCS SE FOR ESCRITO COM DESCRICOES DO PROGRAMA
+
+### ARQUVIVO RULES!!!!!!
+### VAMOS LIMPAR TIRANDO ALGUNS COMENTARIOS!
+## DEIXE O #DH_VERBOSE=1 SE CASO PRECISAR USAR
+## DEIXE O #EXPORT DEB_BUILD, DEB_CFLAGS, DEB_LDFLAGS, E O % DH $@
+## SALVE E FECHE O RULES!
+
+### ARQUIVO WATCH ## BASICAMENTE É FAZER UMA EXPRESSAO REGULAR PARA FICAR PESQUISANDO AONDE JÁ ESTA, COPEI O LINK DO UPSTEAM E FAÇA A EXPRESSAO COMO NO EXEMPLO, O ARQUVO WATCH FICA SÓ A VERSAO E O LINK para testar usa o uscan na pasta principal
+version=4
+https://f00l.de/pcapfix/pcapfix-(.*)\.tar\.gz
+
+### SE QUISER DEIXAR MAIS INCREMENTADO O SISTEMA DE PESQUISA:
+https://f00l.de/pcapfix/pcapfix-(\d\S+)\.tar\.(?:bz2|gz|xz)
+https://f00l.de/pcapfix/pcapfix-(\d\S+)\.(?:zip|tar\.(?:bz2|gz|xz))
+
+### OUTRA MANEIRA TB, É IR NA PAGINA DO UPSTEAM O ESPACO VAI FAZER UM GREP
+https://f00l.de/pcapfix/ (.*)
+### DEPOIS QUE LOCALIZAR OQ QUER GREPAR FAÇA
+https://f00l.de/pcapfix/ pcapfix-(\d\S+)\.tar\.(?:bz2\gz\xz)
+
+### NO GITHUB VAI EM RELEASES E PEGA O LINK DE RELEASES PESQUISE PRIMEIRO
+https://github.com/Rup0rt/pcapfix/releases (.*)
+
+#### DEIXE BUNITINHO!
+https://github.com/Rup0rt/pcapfix/releases .*/archive/v?(\d\S+)\.tar\.(?:gz|xz|bz2)
+
+#### É BOM ACRECENTAR ESSE ANTES DE CADA LINK DO WATCH QUANDO OUVER ASSINATURA PGP
+opts="pgpsigurlmangle=s/$/.asc/" \
+#### PARA INSERIR A CHAVE PUBLICA DO UPSTREAM, VC VAI NO DIRETORIO DEBIAN E CRIA UMA PASTA CHAMADA upstream E AGENTE CRIA UM ARQUIVO CHAMADO signing-key.asc
+
+### DESCENDO PRO DIREITO RAIZ DO PROGRAMA, VAMOS TENTAR DAR UM debuild
+debuild
+
+### SE TUDO OCORRER BEM, DENTRO DO DIRETORIO DEBIAN VAI TER NOVAS PASTAS COMO A PASTA DO PRAGRAMA DE UM tree nele para ver como esta
+tree pcapfix
+
+pcapfix
+├── DEBIAN
+│   ├── control
+│   └── md5sums
+└── usr
+    ├── bin
+    │   └── pcapfix
+    └── share
+        ├── doc
+        │   └── pcapfix
+        │       ├── changelog.Debian.gz
+        │       ├── changelog.gz
+        │       ├── copyright
+        │       └── README.gz
+        └── man
+            └── man1
+                └── pcapfix.1.gz
+
+# vai ser algo parecido com isso
+### ANALISE O FINAL DO DEBUILD E VEJA OS ERROS NO CASO:
+
+P: pcapfix source: debian-watch-may-check-gpg-signature
+I: pcapfix: hardening-no-bindnow usr/bin/pcapfix
+W: pcapfix: wrong-bug-number-in-closes l3:#nnnn
+W: pcapfix: new-package-should-close-itp-bug
+I: pcapfix: description-synopsis-might-not-be-phrased-properly
+I: pcapfix: spelling-error-in-manpage usr/share/man/man1/pcapfix.1.gz futher further
+
+### SE CASO QUER LIMPAR O BUILD USE O DEBCLEAN ( volta para original )
+debclean
+
+### PESQUISE NO GOOGLE OS ERROS
+### se rodar um lintian no diretorio do upstream
+lintian -i ele via te explicar como o google
+
+### RESOLVIDO OS PROBLEMAS VAMOS AO REPORTBUG!!!!
+### COM USUARIO COMUM, NO SEU PC FAÇA O COMANDO:
+### se quiser que nao cheque use o -b ( quando vc ja sabe que o pacote é seu )
+reportbug
+
+## COLOQUE STANDART E TXT
+## PERGUNTA SE VC TEM ACESSO DIRETO A INTERNET SIM!
+## COLOCA SEU NOME, EMAIL, DIZ QUE NAO TEM SERVER DE NET E QUANDO PERGUNTAR QUAL SERVER VC VAI USAR COLOCA:
+reportbug.debian.org:587
+## PRECISA DE USER NAME? NAO PRECISA
+## SE QUER CRIPTOGRAFAR NAO PRECISA
+## SE TIVER PROXY NAO PRECISA
+## ENTER, ENTER! PRONTO TA CONFIGURADO AGORA SE COLOCAR REPORTBUG
+## ELE VAI TE PERGUNTAR O NOME DO PACOTE
+## PARA FAZER UM ITP OU RFA OU O OU RFH OU RFP DIGITE: 
+wnpp
+## y
+## No caso vamos inserir um pacote, com o numero 1
+## nome do pacote
+## ESCOLHA SEU EDITOR PREFERIDO, E PREENCHA OS REQUISITOS
+
+## AI QUANDO ENVIAR VAI CHEGAR NO SEU EMAIL UM NUMERO DE BUG! AI VC USA ELE LA NO SEU CHANCE LOG!
+
+### VAMOS FAZER UMAS VERIFICACOES
+## PARA VER SE ESTA TUDO LA DENTRO
+tree pcapfix
+
+## VAMOS FAZER VERIFICACAO ORTOGRAFICA DOS ARQUIVOS
+spell changelog | sort -u
+spell control | sort -u
+
+## SE CASO QUER ADICIONAR PALAVRAS NO DICIONARIO ADICIONE EM /root/ o arquivo .ispell_default com as palavras seguidas de ENTER
+
+## CHECAGEM DE HARDNING
+## vai em ../ e da um dlhc --all noarquivo.build
+## ELE VAI TE PASSAR AS FLAGS PARA ADIONAR NO RULES
+## GERALEMTE TDS CORRIDAS POR harwdware=+all
+
+## VERIFICACAO ULTIMA VERIFICACAO
+## ENTRA DENOVO NO DEBIAN E VERIFICA UM A UM
+## da o debuild denovo confere tudo, vai la fora e olha novamente o arquivo .changes que foi criado pra ver se esta tudo ok
+
+## ULTIMA VERIFICACAO!!!!!
+## VAI PARA FORA DA JAULA ENTRA COMO ROOT E INSSTALA O cowbuilder
+cowbuilder --create
+
+## AS VEZES USAR O cowbuilder --update (para dar update na jaula)
+cowbuilder --build /jaula-sid/pkg-pcapfix/pcapfix_1.0.2-1.dsc
+
+### SE TUDO OK, PACOTE INSTALADO COM SUCESSO SEM PROBLEMAS
+## VAMOS ENVIAR O PACOTE!!!!
+VA PARA A JAULA SID NO PKG E DIGITE:
+dput mentors pcapfix_1.0.2-1_amd64.changes
+
+PRONTO!!! SÓ IR ATRAZ DE UM MENTOR PRA SUBIR SEU PACOTE!
+
+################# COMO EMPACOTAR PROXIMA VERSAO!
+uscan # para pesquisar nova versao
+uscan --download # faz o donwload do pacote mais novo!
+uupdate ../pcapfix_1.1.0.orig.tar.gz
+cd ../pcapfix-1.1.0
+confere o changelog etc.. e depois só rodar o debuild!
+já é!
+
+se quiser corrigir algo do mesmo pacote e reenviar usa o :
+dch -i
+
+depois faz o debuild e ja eras

@@ -1,0 +1,8 @@
+## ESTE COMANDO HABILITA TOUCHPAD
+## NETBOOK
+
+synclient TapButton1=1
+synclient TapButton3=2
+synclient TapButton2=3
+
+

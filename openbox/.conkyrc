@@ -1,0 +1,46 @@
+background no 
+update_interval 1
+
+cpu_avg_samples 2
+net_avg_samples 2
+temperature_unit celsius
+
+double_buffer yes
+no_buffers yes
+text_buffer_size 2048
+
+gap_x 520
+gap_y 50
+minimum_size 320 180
+maximum_width 350
+own_window yes
+own_window_type normal
+own_window_transparent yes
+own_window_argb_visual yes
+own_window_argb_value o
+own_window_hints undecorated,sticky,skip_taskbar,skip_pager,below
+border_inner_margin 0
+border_outer_margin 0
+alignment tl
+
+draw_shades no
+draw_outline no
+draw_borders no
+draw_graph_borders no
+default_shade_color 112422
+
+override_utf8_locale yes
+use_xft yes
+xftfont Open Sans:size=10
+xftalpha 1
+uppercase no
+
+default_color ffffff
+color1 DDDDDD
+color2 AAAAAA
+color3 888888
+color4 EF5A29
+
+TEXT
+${font Raleway:weight=Light :size=98}${time %I:%M}${font}
+${goto 18}${font Raleway:weight=Light:size=19} ${time %A %B %d}${font}

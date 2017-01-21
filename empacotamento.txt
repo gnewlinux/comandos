@@ -1,0 +1,127 @@
+### EMPACOTAMENTOS DEBIAN
+
+Documentos Basicos
+- Guida dos novos mantenedores
+- Manual de politicas Debian
+- Referencia dos desenvolvedores
+http://www.debian.org/devel (HTML)
+http://www.debian.org/doc (HTML, PDF, PS, txt, etc.)
+
+Documentos Adicionais
+- Guia de empacotamento de software no Debian ( Pocket A4 )
+http://debianet.com.br
+- Mentors FAQ: - https://wiki.debian.org/DebianMentorsFaq
+
+Listas de discusões
+- Debian Mentors: https://lists.debian.org/debian-mentors
+- Debian Devel Announce: https://lists.debian.org/debian-devel-announce
+
+Chat em IRC
+- Servidor OFTC ou Debian. Mais dados sobre OFTC estão em:
+http://www.oftc.net
+Canal: #debian-mentor
+
+### START!
+
+Package Tracking System
+- Mais conhecido como PTS, fornece todas as informações sobre a vida de um pacote.
+- Disponivel em http://packages.qa.debian.org
+- Novo modelo sendo implementado em http://tracker.debian.org
+
+Estrutura de pacotes
+- Pacotes .deb são arquivos compactados em "ar"
+- Contem a estrutura instalada de um software, pronto para uso e alguns arquivos de controle.
+
+- É possivel obter o codigo-fonte de qualquer pacote usando
+$ apt-get source nomedopacote
+# alternativa usar o "dget -u"
+
+Conceitos de patch e quilt
+- Patches são arquivos que mostram diferenças entre dois outros arquivos ou diretorios.
+- O codigo-fonte do autor do program (upstream) deve ser mantido integro
+- Ajustes necessarios deverao ser feitos temporariamente com patchs.
+- O quilt é um comando que permite a criação e aplicacao de patches facilmente.
+
+CRIANDO PATCHS
+diff -Naur nomedapasta.orign nomedapasta > nome.patch
+# para retirar erros:
+diff -Naur nomedapasta.orign nomedapasta 2> /dev/null > nome.patch
+
+para aplicar o patch:
+# copie o patch para a pasta de orign e entre nela.
+patch -p1 < nome.patch
+
+Patch temporario
+# criar novo patch
+quilt new fix-nomedoarquivo.patch
+# adiconar arquivos que vao mudar
+quilt add arquivo
+# depois que fizer a modificacao do arquivo usar o refresh
+quilt refresh
+# remover depois
+quilt pop
+# se for mais que um
+quilt -a pop
+
+Contrução do pacote no Debian
+- A primeira construcao ocorre localmente para testes.
+- Arquiteturas "any" e "all" (dentre outras)
+- Uma vez enviado o pacote para o Debian, ocorrerá a construção remota e em cada arquitetura.
+- É possivel ver a construção em http://buildd.debian.org
+( acessivel tambem pelo PTS, em "logs")
+
+### link para saber dos programas que estao sendo enviados para o debian
+ftp.upload.debian.org
+
+## ver como esta a construção de um pacote
+buildd.debian.org
+
+Solicitando o upload de um pacote
+- Uma vez criado o seu pacote, chegou a hora de colocá-lo no Debian.
+- Somente um "debian developer" podera fazer upload de um pacote qualquer para o Debian
+- Ha tambem os "Debian Maintainers" DM. No entanto, esses só poderao fazer upload dos seus proprios pacotes.
+- A partir de agora, voce precisara disponibilizar o seu pacote para um DD possa analisa-lo e fazer o upload
+
+## ver os dd e dm
+nm.debian.org
+- Site statistics
+
+
+## Solicitando o ploade de um pacote
+- A primeira coisa é criar uma chave GPG RSA de 4096 bits.
+- Atualmente, o Debian só aceita esse tipo e tamanho de chave. Então, com essa chave, um dia, você poderá ser DM ou DD.
+- Instruções em http://wiki.debian.org/Keysigning
+- A seguir, inscreva-se no site http://mentors.debian.net e faça o upload do pacote para lá.
+- Instruções em http://mentors.debian.net/intro-maintainers
+- Uma vez colocado o pacote no site Mentors, chegou a hora de procurar um "sponsor" (DD que fará o upload para voce, apos revisar o pacote)
+- Siga as instruções exeistentes em
+http://mentors.debian.net/sponsors
+- Se voce decidir enviar um bug para o pacote "sponsorship-requests", utilize o comando "reportbug" para gerar o bug.
+- Veja exemplos de bugs ja abertos em
+https://bugs.debian.org/cgi-bin/pkgreport.cgi?package=sponsorship-requests
+
+# entrada dos pacotes
+incoming.debian.org
+
+# lista discusao br
+https://lists.debian.org/debian-devel-portuguese
+
+# COMO saber se alguem tem a intencao de empacotar algum programa
+apt-cache search programa
+# se o programa ainda nao existe no debian use
+wnpp-check programa
+# vai lhe mostrar como esta o programa se alguem tem a intencao de empacotar
+Se voce ver um programa que alguem ja tem a intencao mais nada aconteceu a um tempo, envia um email para o NUMERODOBUG@bugs.debian.org
+ex:
+776499@bugs.debian.org
+
+Software disponiveis em sites como SF.net GitHub etc...
+Uma otima fonte é, http://wnpp.debian.net
+Leia mais sobre WNPP em http://www.debian.org/devel/wnpp
+QA ( Quality Assurance, para pacotes Orfaos)
+https://qa.debian.org/developer.php?login=packages@qa.debian.org
+
+##### TRADUCOES
+ITA = PACOTE ADOTADO
+O = PACOTE ORFAO
+

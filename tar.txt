@@ -1,0 +1,8 @@
+### tar ####
+
+# visualizar arquivos de um tar
+tar -tvf nomedoarquivo.tar
+
+# extrair
+tar -xvsf nomedoarquivo.tar.xz
+

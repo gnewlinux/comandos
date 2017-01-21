@@ -1,0 +1,4 @@
+diff -Naur direotiro.orign direotiromodificado
+
+eliminar error
+diff -Naus diretorio.orign diretoriomodificado 2> null
