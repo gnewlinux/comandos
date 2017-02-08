@@ -1,0 +1,72 @@
+### INSTALAR
+apt-get install mysql-server mysql-client
+ou
+apt-get install mariadb-server mariadb-client
+
+### ENTRAR NO SHELL DO MYSQL
+
+mysql -u root -p password
+
+### NO SHELL
+
+# MANIPULAR BANCOS
+# exebir banco:
+show databases;
+# para entrar em uma database:
+use nomedobanco;
+# para listar tabelas
+show tables;
+
+### CRIANDO USUARIO
+grant all privileges on nomedobanco.* to usuario@'%' identified by 'senha';
+## o '%' signica que pode vir de qualquer ip.
+
+### CRIAR TABELA:
+create table nomedatabela(
+id integer primary key auto_increment not null,
+nome varchar(50) not null,
+conteudo text not null);
+
+# DESCRICAO DA TABELA
+describe nomedatabela;
+ou desc nomedatabela;
+
+### INSERIR VALOR
+insert into nomedatabela(coluna1,coluna2) values('hello.py','#!/usr/bin/python print "hello word"');
+
+## BUSCAR NA LINHAS
+select * from nomedatabela;
+
+### ALTERAR DADOS
+update nomedatabela set nomedocampo='alteracao';
+# ISSO VAI ALTERAR TODOS! POIS NAO ESPECIFICA QUAL SERIA
+update nomedatabela set nomedocampo='alteracao' where id=1;
+# AQUI JÁ VAI ALTERAR O CONTEUDO COM ID 1
+
+### DELETAR DADOS PODE SER QUALQUER COLUNA NAO SO O ID
+delete from nomedatabela where id=1;
+
+## remover todos os dados da tabela no caso do delete o ID não vai ser o mesmo nunca!
+truncate nomedatabela;
+
+### PARA COMPARAR UM CAMPO DE DUAS TABELAS
+select * from tabela1 where campo1 in (select tabela1 from tabela2);
+
+### BUSCAR IDS ESPECIFICOS NO CASO DO 10 A 15 DE ID
+select * from nomedatabela where id between 10 and 15;
+
+### BUSCAR PELO CAMPO
+select * from nomedatabela where campo = 'campo'
+
+### ordernar usar no fim do select
+order by id;
+ou
+order by id desc;
+
+
+### CONTAR REGISTROS
+select * from nomedatabela;
+
+select count(*) total from nomedatabela where campo="campo"; 
+select count(*) total from nomedatabela where campo="%.py";
+

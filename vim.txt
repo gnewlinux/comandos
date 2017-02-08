@@ -22,3 +22,77 @@ set bg=dark # deixa as fontes em negrito
 
 .vimrc quem tem o arquivo de conf de user
 ou em /etc/vimrc ou /etc/vim/vimrc
+
+
+### LINUXTIPS
+
+i = inserir
+a = inserir 1 caracter a frente
+I = inserir no começo da linha
+A = inserir no final da linha
+o = inserir uma linha abaixo com quebra
+O = inserir uma linha a cima com quebra
+S = apaga a inha e começa a escrever
+
+# ESC :
+w = salvar
+wq = salver e sair
+q = sair
+q! = sair sem salvar
+x = salvar sair
+
+Shift ZZ = salvar e sair
+
+yy = copia linha
+y3y ou 3yy= copia 3 inhas
+dd = recortar
+d3d ou 3dd = recorta 3 linhas
+p = colar
+
+
+#MODO VISUAL
+v = habilita modo
+
+# selecione o que quer copiar
+y = copia
+p = cola
+d = remover
+Ctrl + v = modo vertical
+
+1yw = copiar 1 palavra
+3yw = copiar 3 palavras
+x = apaga caracter
+X = remove caracter pra traz
+
+:w novonome = salvar como
+:e arquivo = abrir novo arquivo
+
+# dividir tela em 2
+:slipt /etc/hosts
+Ctrl + ww = Mudar de tela
+
+r /etc/hosts = copiar arquivo para arquivo atual
+
+/ palavra = localiza palavra
+n = continua a busca
+
+? palavra = busca de baixo pra cima
+
+%s/palavra/palavranova/ = muda tds palavras do arquivo
+%s/palavra/palavranova/g = muda tds palavras do arquivo
+
+ab abr abreviacao = cria abreviacao de palavras
+:set ai = liga identacao
+:set noai = desliga identacao
+
+:set ic = ignonre keysense
+:set noic = desliga ignoe key
+
+:set bg=dark
+:set bg=light
+
+:set tabstop=4 = setar espacos do tab
+:set showmatch = abrir e fechar parentes
+
+:.,$!sort = ordem alfabedita
+:.,$!sort | pr -2t = ordem alfabedita em 2 tabelas

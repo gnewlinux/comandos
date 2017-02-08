@@ -1,0 +1,43 @@
+# salvar em um arquivo
+sysdig -w nome.scap
+# ler o arquivo
+sysdig -r nome.scap
+
+# listar processos que mais utilizam cpu
+sysdig -c topprocs_cpu
+
+# listar  e salvar
+sysdig -w nome.scap -c topprocs_cpu
+
+# listar todas as opcoes (cheasels)
+sysdig -cl
+
+# listar os filtros
+sysdig -l
+
+# para usar os filtros é nome.nome
+# aqui ele vai ver processos da cpu 0 se no caso for multi processador
+sysdig -w teste.scap -c topprocs_cpu evt.cpu=0
+
+# analizar processos
+sysdig proc.name=cat or proc.name=vim
+
+# visualizar que possuem mais leitura e escrita nesse momento
+sysdig -c topfiles_bytes
+
+# quantos arquios o processo esta utlizando
+sysdig -c fdcount_by proc.name "fd.type=file"
+
+# monitorar arquivo
+sysdig -A -c echo_fds "fd.filenome=nomedoarquivo"
+
+# ele vai guardar o arquivo ja compactado
+sysdig -s 4096 -z -w /tmp/file.scap.gz
+
+# para ler vc pode usar ele compactado mesmo
+# e ainda pode acrecentar uma -c
+sysdig -r /tmp/file.scap.gz -c spy_users "usar.name=seunome"
+
+
+
+
