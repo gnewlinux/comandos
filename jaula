@@ -1,0 +1,5 @@
+#!/bin/bash
+mount -o bind /dev/pts /jaula-sid/dev/pts
+chroot /jaula-sid/
+umount /jaula-sid/dev/pts
+umount /jaula-sid/proc
