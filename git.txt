@@ -1,0 +1,39 @@
+git help
+git help funcaogit
+
+# comentar mudancas
+git commit -m
+
+# adicionar arquivos ou * todos
+git add arquivos
+
+# setar user
+git config --global user.email gnewlinux@gmail.com
+# setar editor
+git config --global core.editor vim
+# setar arquivos ignorados
+git config --global core.excludesfile ~/.gitignore
+# listar confs
+git config --list
+
+# criar repo
+git init
+
+# verificar status
+git status
+
+# historico
+git log
+# ultimas
+git log -p -2
+
+# em uma linha
+git log --prettu=oneline
+
+# historico e um arquivo
+git log -- <arquivo>
+
+git fecth
+
+# setar ssh
+git remote set-url origin git@github.com:gnewlinux/django.git
