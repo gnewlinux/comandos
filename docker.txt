@@ -1,0 +1,41 @@
+### DOCKER COMO USAR
+
+docker run nomedaimagem
+
+ex: # docker run hello-world
+
+#### VISUALIZAR DOCKERS ABERTOS
+docker ps
+
+# visualizar todos conteiners que foram parados ou finalizados.
+docker ps -a
+
+#### VISUALIZAR IMAGENS NO PC
+docker images
+
+
+### PARAMETROS
+docker run -ti ubuntu /bin/bash ( terminal e intereção )
+docker run -d ( rodar como se fosse um daemon "processo em bg")
+docker rn -ti centos:7 /bin/bash ( definindo versao )
+docker attach IDCONTAINER ( volta para o conteiner em bg )
+docker create ubuntu ( cria mais nao executa )
+docker stop CONTAINERID ( para parar um conteiner )
+docker start CONTAINERID ( subir container )
+docker pause CONTAINERID ( pause no cara )
+docker unpause CONTAINERID ( despausa )
+docker stats CONTAINERID ( informacoes / CPU / MEM / NET / RW)
+docker top CONTAINERID ( processos do container )
+docker logs CONTAINERID ( informacoes de logs "tudo que esta em primeiro plano")
+docker rm CONTAINERID ( remover conteiner sem estar em execucao ) conteiner nao existe mas imagem sim.
+docker rm -f CONTAINERID ( remove forçando ) # o container nao existe mas a imagem sim.
+
+
+
+### ATALHOS
+ctrl + pq ( sair sem matar o processo )
+ctrl + d ( sair )
+
+
+### LIMITAR CONSUMO DE MEMORIA
+
