@@ -1,0 +1,28 @@
+MASTER - 192.168.1.1
+
+- /etc/distcc/hosts
+# comentar +zeroconf
+
+iserir maquinas
+
+192.168.1.2,lzo localhost
+
+
+/etc/default/distcc
+STARTDISTCC="true"
+
+reboot
+
+make -j2 CC="distcc gcc"
+
+
+------------------------------
+
+NODE - 192.168.1.2
+
+/etc/default/distcc
+STARTDISTCC="true"
+ALLOWEDNETS="192.168.1.0/24"
+LISTENER="192.168.1.2"
+
+reboot
