@@ -1,0 +1,15 @@
+#atualize seu slackware.
+
+slackpkg update
+slackpkg upgrade-all
+
+# faça o download do multilib via alien
+VERSAO=14.2 ; lftp -c "open http://www.slackware.com ; mirror ~alien/multilib/$VERSAO multilib"
+
+cd multilib-upgrade
+upgradepkg --install-new *.t?z slackware64-compat32/*-compat32/*.t?z
+nano /etc/slackpkg/blacklist
+
+[0-9]+SBo
+[0-9]+alien
+[0-9]+multilib
