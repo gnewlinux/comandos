@@ -1,0 +1,1 @@
+grep "mp3" codigo --color | cut -d"/" -f2-3 | cut -d"\"" -f1 > wgets ; awk '{print "https://papolivre.org/"$0}' wgets > wgets2

@@ -1,5 +1,4 @@
 #!/bin/bash
-mount -o bind /dev/pts /jaula-sid/dev/pts
-chroot /jaula-sid/
-umount /jaula-sid/dev/pts
-umount /jaula-sid/proc
+sudo mount -o bind /dev/pts /Jaula-sid/dev/pts
+sudo cp /etc/resolv.conf /Jaula-sid/etc/resolv.conf
+sudo chroot /Jaula-sid/
