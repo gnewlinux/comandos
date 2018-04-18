@@ -1,0 +1,27 @@
+dch --qa ( QA )
+dch -i ( ITA )
+
+# debiniacao
+dh_make -f ../nomedopactoe.tar.gz -c gpl2
+
+debuild ( Testar e compilar )
+
+começo as mudanças.
+
+debdiff ../*.dsc > ../nome.debdiff ( armazenar mudanças )
+
+dput mentors ../nomedoarquivo.changes ( aquele que foi gerado pelo debuild )
+
+Sites .org servicos oficiais.
+      .net alguem mantem mais nao esta incorporado ainda no debian....
+
+mentors.debian.net/   ( visualizar os pacotes que estao entrando ) Packages List
+
+
+algumas dicas do eriberto
+uscan ( ver o watch )
+se caso tiver 
+uscan --download ( vai baixar a nova versao (
+uupadte ( para atualizar o pacote )
+# vai criar um novo pacote.
+
