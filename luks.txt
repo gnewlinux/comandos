@@ -1,0 +1,467 @@
+#### Tutorial de InstalaÃ§Ã£o Debian com luks
+##
+## Esse tutorial visa a instalaÃ§Ã£o do Debian do zero, usando luks para criptografar todo o sistema.
+## Existem algumas formas de fazer isso aqui escolho uma delas: sem lvm.
+## Vamos fazer de modo que no boot vai precisar digitar a chave de decriptografia uma Ãºnica vez.
+##
+## A instalaÃ§Ã£o poderÃ¡ ser feita de dois modos:
+## A- Usando uma instalaÃ§Ã£o atual de Debian ou derivados.
+## B- Usando um live-cd do Debian ou derivados,
+##
+## Tudo que for especÃ­fico de uma ou outra serÃ¡ indcado A ou B.
+##
+## PoderÃ¡ ser para rodar em mÃ¡quina real ou virtual.
+
+## Aqui vou instalar o Debian estÃ¡vel (stretch), mas pode fazer o mesmo para o (Buster) ou Sid.
+##
+## Para isso vamos fazer algumas etapas.
+
+0- Tem que ser root!!
+1- PreparaÃ§Ã£o.
+   A.
+     - Criar um disco virtual.
+     - Criar o dispositivo para esse disco.
+
+   B.
+     - Baixar um live CD/DVD/Pendrive
+     - Dar boot por ele.
+
+2. Criar as partiÃ§Ãµes.
+3. Criar os sistemas de arquivos "formatar".
+4. Instalar o Debian.
+5. Chrootar
+6. Instalar pacotes necessÃ¡rios.
+7. Preparar para dar boot.
+8. Instalar outros pacotes que deseje e encerrar..
+9. Boot.
+10. Testes de soluÃ§Ã£o de problemas.
+
+##################################################
+
+0- Tem que ser root!!
+
+# O padrÃ£o no Debian Ã© o root ter uma senha, entÃ£o digite:
+su
+
+# Se nÃ£o estiver com o padrÃ£o ou use uma distro diferente, entÃ£o digite:
+sudo -s
+
+# Ah! mas eu poderia usar sudo para cada comando!
+# Pode! Se gosta use eu nÃ£o gosto, hehe!!
+
+# Vamos usar algumas ferramentas.
+# Caso ainda nÃ£o esteja instalado rode:
+
+apt update
+apt install cryptsetup
+
+1-A.
+     - Criar um disco virtual.
+
+# Escolhi 3G, vocÃª claro vai adaptar para o tamanho que quiser.
+# O nome luks.qcow2 para mim pareceu bom.
+# caso nÃ£o tenha instale qemu-utils
+
+qemu-img create -f qcow2 luks.qcow2 3G
+
+# Ver como ficou.
+
+qemu-img info luks.qcow2
+
+     - Criar o dispositivo para esse disco.
+
+# Para poder associar um dispositivo ao disco virtual vamos usar nbd
+
+modprobe nbd
+qemu-nbd -c /dev/nbd0 luks.qcow2
+
+# Desse modo o dispositivo /dev/nbd0 Ã© equivalente a um /dev/sda ou /dev/sdb etc.
+
+1-B
+     - Baixar um live CD/DVD/Pendrive
+
+# Recomendo um live cd do Debian, claro, mas pode ser usado de qualquer distro derivada.
+# Escolha no link abaixo a sua preferida se ainda nÃ£o tiver baixado.
+
+https://www.debian.org/CD/live/
+
+# Depois de baixar, pode escolher gravar um CD ou DVD usando o programa que preferir para isso.
+# DÃ¡ atÃ© para usar de outros sistemas.
+#
+# Outra forma, hoje em dia mais prÃ¡tica Ã© usar um pendrive usb.
+# Para transformar a imagem ISO que baixou em um pendrive hÃ¡ vÃ¡rios programas para isso,
+# Num GNU eu prefiro usar o programa dd.
+#
+# A seguinte linha de comando:
+
+dd if=nome-do-arquivo.iso of=dispositvo-do-pendrive bs=50M oflag=sync
+
+Exemplo:
+
+dd if=debian-live-9.3.0-amd64-mate.iso of=/dev/sdb oflag=sync
+
+     - Dar boot por ele.
+
+## Depende bastante do equipamento, costuma ter um tecla para escolher qual dispositivo usar para dar boot.
+## Alguns fabricantes FDP enchem o saco com "Secure boot", seguro sÃ³ se for para eles, mas atÃ© onde sei dÃ¡ para desabilitar
+## Consulte manual ou seu site de buscas preferido.
+
+2A. Criar as partiÃ§Ãµes.
+
+# partiÃ§Ãµes
+1- efi (basta uns 50Mb)
+2- Linux
+
+# caso nÃ£o saiba siga o passo-a-passo
+fdisk /dev/nbd0
+g
+n
+<enter>
+<enter>
++50M
+t
+1
+n
+<enter>
+<enter>
+<enter>
+w
+
+fdisk -l /dev/nbd0
+
+# Deve se parecer com isso:
+
+Disk /dev/nbd0: 3 GiB, 3221225472 bytes, 6291456 sectors
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disklabel type: gpt
+Disk identifier: 85BE2C6B-566A-4AEF-BECE-074716253EA6
+
+Device       Start     End Sectors Size Type
+/dev/nbd0p1   2048  104447  102400  50M EFI System
+/dev/nbd0p2 104448 6291422 6186975   3G Linux filesystem
+
+2B. Criar as partiÃ§Ãµes.
+
+# partiÃ§Ãµes
+
+fdisk /dev/sda
+
+1- efi (basta uns 50Mb)
+2- Linux
+
+fdisk -l /dev/sda
+
+# Deve se parecer com isso:
+
+Disk /dev/sda: 111,8 GiB, 120034123776 bytes, 234441648 sectors
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disklabel type: gpt
+Disk identifier: 70DBA90D-D1BE-4396-B397-CBFD1ED87AE9
+
+Device         Start       End   Sectors  Size Type
+/dev/sda1       2048    104447    102400   50M EFI System
+/dev/sda2     104448   8493055   8388608    4G Linux swap
+/dev/sda3    8493056 213469183 204976128 97,8G Linux filesystem
+/dev/sda4  213469184 234441614  20972431   10G Linux filesystem
+
+3A. Criar os sistemas de arquivos "formatar".
+
+# Formatar com o sistema FAT32 que UEFI conhece
+
+mkfs.vfat /dev/nbd0p1
+
+# Preparar a partiÃ§Ã£o para criptografia luks
+
+cryptsetup luksFormat /dev/nbd0p2
+
+# Ã© preciso digitar YES com etras maiÃºsculas
+# Quanto mais complexa for a "passphrase" que usar melhor!
+# Eles chamam de senha
+
+# Criar o dispositivo mapeado da criptografia
+# SerÃ¡ usado como se esse fosse o disco real.
+
+cryptsetup luksOpen /dev/nbd0p2 cryptroot
+
+# Agora formatar ext4
+
+mkfs.ext4 /dev/mapper/cryptroot
+
+# Montar o dispositivo jÃ¡ formatado e criptografado na estrutura de diretÃ³rios.
+mkdir /debian
+mount /dev/mapper/cryptroot /debian/
+
+
+3B. Criar os sistemas de arquivos "formatar".
+
+# Formatar com o sistema FAT32 que UEFI conhece
+
+mkfs.vfat /dev/sda1
+
+# Preparar a partiÃ§Ã£o para criptografia luks
+
+cryptsetup luksFormat /dev/sda2
+
+# Criar o dispositivo mapeado da criptografia
+# SerÃ¡ usado como se esse fosse o disco real.
+
+cryptsetup luksOpen /dev/sda2 cryptroot
+
+# Agora formatar ext4
+
+mkfs.ext4 /dev/mapper/cryptroot
+
+# Montar o dispositivo jÃ¡ formatado e criptografado na estrutura de diretÃ³rios.
+mkdir /debian
+mount /dev/mapper/cryptroot /debian/
+
+
+4. Instalar o Debian.
+
+# A ferramenta debootstrap existe nas vÃ¡rias distros derivadas do Debian alÃ©m do prÃ³prio Debian.
+# Se ainda nÃ£o estiver instalada instale rodando:
+
+apt update
+apt install debootstrap
+
+# Agora vamos iniciar a instalaÃ§Ã£o do stretch, se quiser buster ou sid Ã© sÃ³ alterar.
+# Essa etapa vai baixar, verificar e instalar os pacotes essenciais do Debian.
+
+debootstrap stretch /debian/ http://deb.debian.org/debian
+
+5. Chrootar
+
+# Agora vamos fazer o que Ã© chamado chrootar, que Ã© alterar o / (barra) do sistema,
+# assim jÃ¡ vamos rodar o nosso novo Debian.
+# Para fazer o chroot Ã© preciso montar o ambiente:
+
+mount -t proc proc /debian/proc
+mount -o bind /dev /debian/dev
+mount -o bind /sys /debian/sys
+mount -o bind /dev/pts /debian/dev/pts
+
+chroot /debian
+mkdir /boot/efi
+
+A.
+mount /dev/nbd0p1 /boot/efi
+
+B.
+mount /dev/sda1 /boot/efi
+
+# Aqui vamos baixar o sources.list tÃ­pico, sÃ³ com softwares livres
+
+wget kretcheu.com.br/sources.list -O /etc/apt/sources.list
+
+apt update
+apt upgrade
+
+6. Instalar pacotes necessÃ¡rios.
+
+# Instalar a localizaÃ§Ã£o no nosso idioma
+
+apt install locales
+dpkg-reconfigure locales
+
+# Para portuguÃªs do Brasil basta essa:
+
+pt_BR.UTF-8
+
+# Para facilitar a vida gosto de usar o bash-completion
+
+apt install bash-completion
+. /etc/bash_completion
+
+# Agora vamos instalar um kernel
+# Minha mÃ¡quina Ã© de 64 bits, adapte caso a sua seja diferente.
+
+apt install linux-image-amd64
+
+# As ferramentas de criptografia estÃ£o no cryptsetup
+
+apt install cryptsetup
+
+# Editar o arquivo /etc/crypttab
+# Com o editor da sua preferÃªncia
+
+vi /etc/crypttab
+
+A.
+# <target name>	<source device>		<key file>	<options>
+cryptroot /dev/vda2 /crypto_keyfile.bin luks
+
+# ou usando o UUID
+# para ver use: ls -l /dev/disk/by-uuid
+#aqui mostrou assim:
+
+lrwxrwxrwx 1 root root 10 jan 26 18:41 0af732ca-3bec-4dda-97e5-56df58731e50 -> ../../vda2
+lrwxrwxrwx 1 root root 10 jan 26 18:41 2264-F8AB -> ../../vda1
+lrwxrwxrwx 1 root root 10 jan 26 18:41 f65d6edd-1db0-43cd-9920-9161ad87d6fa -> ../../dm-0
+
+# o arquivo /etc/crypttab fica assim
+B.
+# <target name>	<source device>		<key file>	<options>
+cryptroot /dev/sda2 /crypto_keyfile.bin luks
+
+# ou usando o UUID
+# para ver use: ls -l /dev/disk/by-uuid
+#aqui mostrou assim:
+
+lrwxrwxrwx 1 root root 10 jan 26 18:41 0af732ca-3bec-4dda-97e5-56df58731e50 -> ../../sda2
+lrwxrwxrwx 1 root root 10 jan 26 18:41 2264-F8AB -> ../../sda1
+lrwxrwxrwx 1 root root 10 jan 26 18:41 f65d6edd-1db0-43cd-9920-9161ad87d6fa -> ../../dm-0
+
+# o arquivo /etc/crypttab fica assim
+
+# <target name>	<source device>		<key file>	<options>
+cryptroot UUID=0af732ca-3bec-4dda-97e5-56df58731e50 /crypto_keyfile.bin luks
+
+# Copiar esse script que serÃ¡ Ãºtil no boot.
+
+cp /usr/share/initramfs-tools/hooks/cryptkeyctl /etc/initramfs-tools/hooks
+
+# Editar o arquivo /etc/fstab
+# lembre de alterar para o UUID da sua partiÃ§Ã£o
+
+/dev/mapper/cryptroot	/		ext4	defaults			0 1
+UUID=2264-F8AB         	/boot/efi	vfat	defaults			0 2
+
+# Ajustes na instalaÃ§Ã£o
+# editar o arquivo /etc/hostname
+# eu escolhi o nome da mÃ¡quina como:
+luks
+
+/etc/hosts
+localhost luks
+
+# Adicionar um usuÃ¡rio e definir uma senha para root
+
+adduser luks
+passwd root
+
+7. Preparar para dar boot.
+
+# Isntalar o pacote do GRUB.
+
+apt install grub-efi
+
+# escolha a opÃ§Ã£ode nÃ£o instalar grub nos dispositivos
+
+
+# para evitar escrever na sua prÃ³pria uefi rode:
+ chmod -x /etc/grub.d/30_*
+
+
+A.
+# Ajustes para o grub funcionar como queremos
+# Inclua no arquivo /etc/default/grub
+
+GRUB_CMDLINE_LINUX="root=/dev/mapper/cryptroot cryptdevice=/dev/vda2:cryptroot "
+GRUB_ENABLE_CRYPTODISK=y
+
+B.
+# Ajustes para o grub funcionar como queremos
+# Inclua no arquivo /etc/default/grub
+
+GRUB_CMDLINE_LINUX="root=/dev/mapper/cryptroot cryptdevice=/dev/sda2:cryptroot "
+GRUB_ENABLE_CRYPTODISK=y
+
+# Se preferir pode ser usando UUID
+# A e B
+
+GRUB_CMDLINE_LINUX="root=/dev/mapper/cryptroot cryptdevice=UUID=0af732ca-3bec-4dda-97e5-56df58731e50:cryptroot "
+GRUB_ENABLE_CRYPTODISK=y
+
+# Agora vamos instalar o grub no dispositivo
+
+A. Instalar o grub no disco
+grub-install /dev/nbd0
+
+B. Instalar o grub no disco
+grub-install /dev/sda
+
+# Para atualizar o arquivo de configuraÃ§Ã£o do GRUB.
+
+update-grub
+
+############################
+# Para que seja necessÃ¡ria apenas uma vez digitar a passphrase,
+# vamos criar a chave que estarÃ¡ no initramfs e habilitÃ¡-la.
+
+dd bs=512 count=4 if=/dev/urandom of=/crypto_keyfile.bin
+chmod 000 /crypto_keyfile.bin
+chmod 600 /boot/initrd.img*
+
+A.
+cryptsetup luksAddKey /dev/nbd0p2 /crypto_keyfile.bin
+
+B.
+cryptsetup luksAddKey /dev/sda2 /crypto_keyfile.bin
+
+# Para que nenhum usuÃ¡rio local sem ser root possa ler o initrd e copiar a chave
+# incluir no arquivo /etc/initramfs-tools/initramfs.conf
+
+UMASK=0077
+
+## Para incluir chave no initramfs
+# no arquivo /etc/cryptsetup-initramfs/conf-hook
+# definir as variÃ¡veis dessa forma:
+CRYPTSETUP=y
+KEYFILE_PATTERN=/*.bin
+
+## Agora atualizamos o initramfs
+
+update-initramfs -u -k all
+
+########################################
+
+8. Instalar outros pacotes que deseje e encerrar..
+
+# Instale o que mais quiser/precisar
+# Recomendo que deixe isso para depois, jÃ¡ temos o bÃ¡sico, logo tudo pode ser instalado depois que tudo estiver 100% funcional
+# uma ferramenta que sempre gosto de ter Ã© o ssh entÃ£o:
+
+apt install ssh
+
+# Agora vamos desmontar tudo para continuar
+
+exit
+
+umount /debian/proc
+umount /debian/dev/pts
+umount /debian/dev
+umount /debian/sys
+umount /debian/boot/efi
+umount /debian/
+
+cryptsetup luksClose cryptroot
+qemu-nbd -d /dev/nbd0
+
+###############################
+
+9. Boot.
+
+A.
+
+Agora vocÃª cria uma mÃ¡quina virtual para usar esse disco virtual usado.
+Pode dar boot por ele.
+
+B.
+
+Remova o pendrive/cd/dvd e dÃª boot pelo disco.
+
+10. Testes de soluÃ§Ã£o de problemas.
+
+Nem sempre as coisas correm 100% de primeira!
+Se tiver problemas para o boot, pode usar o pendrive para montar e chrootar e corrigir problemas.
+
+Espero que dÃª tudo certo, qualquer dÃºvida, crÃ­tica e/ou sugestÃ£o:
+Fale comigo:
+email: kretcheu@gnu.works
+Telegram: @kretcheu
+Twitter: @kretcheu
+
