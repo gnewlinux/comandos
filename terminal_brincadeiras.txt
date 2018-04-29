@@ -1,0 +1,1 @@
+sudo apt install fortunes-br cowsay lolcat cmatrix aview imagemagick espeak figlet

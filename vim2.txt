@@ -1,0 +1,17 @@
+###### MOVIMENTACAO VIM #######
+Paginação gg e G
+Paginação <ctrl-u> e <ctrl-d>
+Ir diretamente para o numero da linha <number>G
+Ir para porcentagem do arquivo <number>%
+Paragrafos { e }
+Frases ( e )
+Palavras w, W, e, E, b, B e etc
+Inicio e fim de linha 0, $ e ^
+Centralizando zb, zt, zz
+Saltos na "pagina virtual" H, m e L
+Saltos entre classes [, ]]
+Saltos entre métodos [m*, ]m
+Entre pares %
+Achar par não "casado" [(, [{
+Ultima inserção gi
+
