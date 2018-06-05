@@ -1,0 +1,1 @@
+apt install firmware-linux-nonfree libgl1-mesa-dri xserver-xorg-video-ati
