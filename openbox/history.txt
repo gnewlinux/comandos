@@ -1,0 +1,55 @@
+Commandline: apt-get -o APT::Status-Fd=4 -o APT::Keep-Fds::=5 -o APT::Keep-Fds::=6 -q -y --no-remove install locales
+Commandline: apt-get -o APT::Status-Fd=4 -o APT::Keep-Fds::=5 -o APT::Keep-Fds::=6 -q -y --no-remove install busybox
+Commandline: apt-get -o APT::Status-Fd=4 -o APT::Keep-Fds::=5 -o APT::Keep-Fds::=6 -q -y --no-remove install initramfs-tools
+Commandline: apt-get -o APT::Status-Fd=4 -o APT::Keep-Fds::=5 -o APT::Keep-Fds::=6 -q -y --no-remove install linux-image-amd64
+Commandline: apt-get -o APT::Status-Fd=4 -o APT::Keep-Fds::=5 -o APT::Keep-Fds::=6 -q -y --no-remove install pciutils
+Commandline: apt-get -o APT::Status-Fd=4 -o APT::Keep-Fds::=5 -o APT::Keep-Fds::=6 -q -y --no-remove install usbutils
+Commandline: apt-get -o APT::Status-Fd=4 -o APT::Keep-Fds::=5 -o APT::Keep-Fds::=6 -q -y --no-remove install wireless-tools
+Commandline: apt-get -o APT::Status-Fd=4 -o APT::Keep-Fds::=5 -o APT::Keep-Fds::=6 -q -y --no-remove install wpasupplicant
+Commandline: apt-get -o APT::Status-Fd=4 -o APT::Keep-Fds::=5 -o APT::Keep-Fds::=6 -q -y --no-remove install keyboard-configuration
+Commandline: apt-get -o APT::Status-Fd=4 -o APT::Keep-Fds::=5 -o APT::Keep-Fds::=6 -q -y --no-remove install console-setup
+Commandline: apt-get -o APT::Status-Fd=4 -o APT::Keep-Fds::=5 -o APT::Keep-Fds::=6 -q --no-install-recommends -y -o DPkg::options=--force-confnew upgrade
+Commandline: apt-get -o APT::Status-Fd=4 -o APT::Keep-Fds::=5 -o APT::Keep-Fds::=6 -q -y --no-remove install laptop-detect
+Commandline: apt-get -o APT::Status-Fd=4 -o APT::Keep-Fds::=5 -o APT::Keep-Fds::=6 -q -y --no-remove install discover
+Commandline: apt-get -o APT::Status-Fd=4 -o APT::Keep-Fds::=5 -o APT::Keep-Fds::=6 -q -y --no-remove install unattended-upgrades
+Commandline: apt-get -o APT::Status-Fd=4 -o APT::Keep-Fds::=5 -o APT::Keep-Fds::=6 -q -y --no-remove -o APT::Install-Recommends=false install installation-report
+Commandline: apt-get -o APT::Status-Fd=4 -o APT::Keep-Fds::=5 -o APT::Keep-Fds::=6 -q -y --no-remove -o APT::Install-Recommends=false install popularity-contest
+Commandline: apt-get -o APT::Status-Fd=4 -o APT::Keep-Fds::=5 -o APT::Keep-Fds::=6 -q -y -o APT::Install-Recommends=true -o APT::Get::AutomaticRemove=true -o APT::Acquire::Retries=3 install task-laptop netcat-traditional doc-debian wget reportbug perl python2.7 python3-reportbug gdbm-l10n bind9-host wamerican debian-faq openssh-client telnet man-db python-minimal python gettext-base liblockfile-bin dbus manpages bash-completion perl-modules-5.26 ncurses-term lsof krb5-locales apt-listchanges traceroute libpam-systemd groff-base hdparm task-ssh-server task-brazilian-portuguese
+Commandline: apt-get -o APT::Status-Fd=4 -o APT::Keep-Fds::=5 -o APT::Keep-Fds::=6 -q -y --no-remove install grub-common
+Commandline: apt-get -o APT::Status-Fd=4 -o APT::Keep-Fds::=5 -o APT::Keep-Fds::=6 -q -y --no-remove install grub-pc
+Commandline: apt install isc-dhcp-client
+Commandline: apt install openbox obmenu lxterminal leafpad
+Commandline: apt install pcmanfm tint2 nitrogen
+Commandline: apt install git
+Commandline: apt install vim
+Commandline: apt install xinit
+Commandline: apt install xserver-xorg-input-synaptics
+Commandline: apt install htop
+Commandline: apt remove --purge xserver-xorg-input-synaptics
+Commandline: apt install xserver-xorg-input-synaptics
+Commandline: apt install lxappearance
+Commandline: apt install gnome-backgrounds
+Commandline: apt install links2
+Commandline: apt install chromium
+Commandline: apt install xfce4-screenshooter
+Commandline: apt install compton
+Commandline: apt install sudo
+Commandline: apt install telegram-desktop
+Commandline: apt install firmware-linux-nonfree libgl1-mesa-dri xserver-xorg-video-ati
+Commandline: apt remove --purge chromium
+Commandline: apt install xfce4-power-manager
+Commandline: apt install alsa-utils
+Commandline: apt install mplayer
+Commandline: apt install youtube-dl
+Commandline: apt install ccze
+Commandline: apt install gimp inkscape
+Commandline: apt install gimp gpicview
+Commandline: apt install pavucontrol
+Commandline: apt autoremove
+Commandline: apt install gnome-themes-standard
+Commandline: apt install gedit
+Commandline: apt install gmrun
+Commandline: apt install vlc simplescreenrecorder libreoffice-writer libreoffice-calc libreoffice-draw
+Commandline: apt install acpi build-essential
+Commandline: apt install screenfetch
+Commandline: apt upgrade
