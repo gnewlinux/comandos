@@ -34,7 +34,7 @@ vim /etc/lintianrc
 # pedantic = yes
 # display-experimental = yes
 
-# exit
+exit
 
 ### exportar chave
 gpg --export NUMERODACHAVE > /tmp/diegosarzi.pub
@@ -43,6 +43,7 @@ gpg --export-secret-keys NUMERODACHAVE > /tmp/diegosarzi.key
 mv /tmp/diegosarzi.* /jaula-sid/
 
 ## Enjaular novamente
+mount -o bind /dev/pts /root/jaula-sid/dev/pts
 chroot /jaula-sid
 
 ## importar chaves
