@@ -1,0 +1,28 @@
+sudo apt-get install cmake cmake-data libcairo2-dev libxcb1-dev libxcb-ewmh-dev libxcb-icccm4-dev libxcb-image0-dev libxcb-randr0-dev libxcb-util0-dev libxcb-xkb-dev pkg-config python-xcbgen xcb-proto   libxcb-xrm-dev i3-wm libasound2-dev libmpdclient-dev libiw-dev libcurl4-openssl-dev libpulse-dev
+
+git clone https://github.com/jaagr/polybar.git
+
+cd polybar && ./build.sh
+
+touch $HOME/.config/polybar/launch.sh
+
+#!/usr/bin/env bash
+
+# Terminate already running bar instances
+killall -q polybar
+
+# Wait until the processes have been shut down
+while pgrep -u $UID -x polybar >/dev/null; do sleep 1; done
+
+# Launch bar1 and bar2
+polybar bar1 &
+polybar bar2 &
+
+echo “Bars launched…”
+
+
+chmod +x $HOME/.config/polybar/launch.sh
+
+#i3wm adicionar
+
+exec_always –no-startup-id $HOME/.config/polybar/launch.sh
