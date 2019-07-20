@@ -1,0 +1,65 @@
+DEVTODO
+gconjugue # para olhar
+########################## TERCEIRO DIA!
+##########################
+
+#### duvidas sobre testes graficos
+debootstrap variant minbase ..... ( criar uma jaila nova )
+e saber oq ele precisa, como Xauth etc....
+
+
+######## hello-galaxy
+- adicionar -g no gcc ( makefile ) # criar patch
+- dpkg-source --commit # para criar o patch
+-- 10_fix-symbols.patch
+-- Description: fix Makefile to provide symbols
+- quilt pop -a
+
+####### blhc
+# ELE VAI PEGAR AS FLAGS QUE FALTAM / PARA CORRIGIR PROBLEMA DE HARDNING.
+blhc --all --debian ../hello-galaxy_0.1-1_amd64.build
+
+quilt push -a
+# editar // Makefile
+- aidiconar $(CFLAGS) $(CPPFLAGS) $(LDFLAGS) depois do gcc
+- se quiser concatenar uma flag com a do rules + upstream é só usar:
+# LDFLGAS += "xyz"
+
+#### para analizar as flags
+# dpkg-buildflags
+
+################### MANPAGES! # LINGUAGEM ROFF
+apt install txt2man
+mkdir debian/manpage
+vim hello-galaxy.txt
+
+para installar:
+vim debian/manpages
+- debian/manpage/hello-galaxy.1
+
+
+### lembrando ddpo ( para ver os pacotes )
+### wnpp.debian.net ( orfão ) 
+esse é o dos QA's:
+packages@qa.debian.org
+
+!!!!! VAMOS FAZER UM QA!
+dch --qa
+
+
+
+################ fechar
+NUMEROBUG-done@bugs.debian.org
+Subject: RE: 
+
+
+
+
+
+
+
+
+
+
+
+

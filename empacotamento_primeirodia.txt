@@ -1,0 +1,133 @@
+##### PRIMEIRO DIA!
+
+# dicas:
+### binario ( deb )
+### Documentos relevantes
+debian.org/devel
+# site do eriberto
+http://debianet.com.br/
+# Politica Debian ( ler qualqeur hora, muda umas 10 vezes por ano )
+# Referencia dos Devs
+# FHS ( Filesystem Hierarchy Standard
+# Debian Free Softtware Guidelines ( DFSG )
+
+
+- Como fazer o download do .deb via apt.
+# apt download nomedopacote
+### para descompactar é o:
+ar -x nomedopaacote.deb
+
+### control > são informações basicas sobre o pacote ( apt show )
+####### seçoes dos repositorios
+: main =  software 100% livre
+: contrib =  contem software 100% livre que depende de algo não livre para compilar ou para funcionar.
+: non-free = contem software opensource não livre. ( ex firmwares )
+
+
+# para visualiar a lista de upload anonimo:
+ftp://ftp.upload.debian.org/pub/UploadQueue/
+#### debian-devel-changes
+
+se caso ele não exista, ele vai para um lugar chamado ( NEW )
+https://ftp-master.debian.org/new.html
+se o pacote já existir no debian ( ele vai para unstable )
+https://incoming.debian.org/debian-buildd/pool/main/ ( a cada 6 horas vão construindo o .deb )
+
+# para ver a vida de um pacote
+https://tracker.debian.org/
+
+wnpp ( ITP, O, RFA, RFH, RFP )
+wnpp-check para checar os emails ( caso já tenha algum programa ou algo assim )
+
+
+#### versooes
+3:0.2-1 ( EPOC Para correções de versao )
+1.4.5-2.1 ( NMU  No manteiner upload )
+1.4+dfsg-2 ( neste caso foi retirado algo nonfree do upstrem e para ir para o main fechamos o pacote sem ele )
+
+### AQRUIVOS QUE DE FATO PRECISAM TER NO DEBIAN ( PACOTE )
+changelog, control, copyright, rules, (source) pasta
+
+# CHANGELOG = aonde vão ficar os logs do empacotador
+# CONTROL =
+	section: ( pegar em packages.debian.org )
+		em unstable ( tentar enquadrar em algum desses o pacote )
+	build-depencies: debhelper-compat (=12), ... ( se tiver mais separa por virgula e espaço )
+	stantands-version: 4.4.0 # buscar em https://www.debian.org/doc/debian-policy/ e ignorar um ultimo numero.
+	
+	architeture: any ( quando for compilado ) quando for intepretado como php ou python colocamos ( all )
+		digamos que seria só:
+	architeture: amd64 i386 ( dessa forma vai compilar só para os 2, lembrando que é sem virgula )
+
+
+	na descrição não pode passar de 80 colunas. e se pular linha é colocando um ponto, e sempre descrição colocar um espaço.
+
+	
+
+
+- Quais são as 5 listas que deveriamos estar como empacotador:
+#### perguntar para o eriberto ( segundo dia )
+
+
+para fazer reportbug ITP
+reportbug -b
+
+bugs.debian.org:587 ( servidor smtp )
+
+### BUGS
+RC = RELEASE CRITICAL ( PACOTE REMOVIDO DA TESTING )
+
+# dpkg utilidades:
+dpkg -l ( pesquisa de isntalados )
+dpkg -I nome.deb ( olhar o show )
+dpkg -c nome.deb ( olhar arquivos )
+
+
+sempre que for
+hardening-no-bindnow ( sempre vai no debian/rules # descomentar o primeiro export ( DEB_BUILD_MAINT_OPTIONS = hardening=+all )
+
+lintian ( para ver os erros )
+lintian-i  ( para mais informações )
+
+dh_make ( debianiação )
+debuild ( para rodar o deb )
+debclean ( limpar )
+
+deopis de tudo fazer o CI ( teste de integração continua )
+debi # para instalar o .deb
+
+mkdir debian/tests
+criar o arquivo: debian/testes/control
+Test-Command: nomedoprograma
+
+# para testar
+autopkgteste . -- null
+
+# verificar erros de ingles
+spell changelog | sort -u
+spell control | sprt -u
+
+wrap-and-sort ### para organizar melhor, se usar ele coloocar no changelog ( run wrap-and-sort )
+ 
+# verificações!
+http://eriberto.pro.br/wiki/index.php?title=Basic_checks_over_Debian_packages
+
+# atualizar a data ( do changelog )
+dch -r
+
+
+cowbuilder update
+cowbuilder build arquivo.dsc
+
+o dput sempre usa o .changes
+
+para testes de grafico na jaula:
+xhost + # no usuario comum
+export DISPLAY=:0 # no chroot (jaula)
+
+
+# para dput
+https://mentors.debian.net/
+
+
+debianet.com.br ( ler FAQ ) aqui tem as listas também para se inscrevermos.

@@ -1,0 +1,206 @@
+licensecheck -r *
+
+dh_make -f ../v0.1.tar.gz -cgpl3
+
+mkdir /tmp/hello-newbie
+mv compat hello* manpaga.* menu* post* pre* README.* whatch.exe /tmp/hello-newibe
+
+vim changelog:
+	- fechar bug, tirar lixo.
+vim control:
+	- section: misc
+	- debhelper-compat (= 12)
+	- Stardds-Version: 4.4.0
+	- Homepage: https://github.com/eribertomota/hello-newbie/
+	- Description: perfect hello for newbies
+	   Hello Newbie is a program that says Hello to all users. This program is
+           useful to learn the basics about C language. All people need to know the
+           very nice effect caused by hello-newbie.
+	   .
+           Hello Newbie can be used to demonstrate the total power of the computers.
+
+egrep -sriA25 '(public dom|copyright)' *
+
+vim copyright: 
+	- Source ( aonde vc baixou )
+	- copyright desdo começo do projeto
+	- GPL3 # não se usa .0 em GPL
+	- Agora meu empacotamento colocamos GPL3+ pois se ele atualizar estamos já atualizado.
+	- GPL3 or GPL3+
+	# textos:
+	ls /usr/share/debhelper/dh_make/licenses/
+	- Retirar TODO
+
+
+vim rules:
+	- retirar linhas
+
+vim source
+	- 3.0 (quilt)
+
+para instalar o ci
+	# debi
+
+##############################################################################################
+
+debuild
+
+# criar cowbuilder create
+# atualizar cowbuilder update
+
+# checar: cowbuilder builder arquivo.dsc
+
+
+##############################################################################################
+
+git = gbp import-dsc nomedoarquivo.dsc
+git branch
+git log
+git tag2
+
+############################################################################################
+
+ftp 192.168.204.95
+user: pacote
+pass: pacote
+
+#############################################################################################
+
+### SEGUNDA PARTE!
+
+# se precisar atualizar a data é:
+dch -r
+
+# vamos continuar o pacote, lançando sua segunda versão
+dch -i
+
+# vamos fazer o watch
+vim debian/watch
+
+version=4
+https://github.com/eribertomota/hello-newbie/releases (.*)
+
+v? \ opcional
+\d # qualquer digito
+\S+ # qualquer caracter
+\ # proteger
+(?:bz2|gz|xz) # para opcional
+
+#############################################################
+
+uscan # para testar
+
+############################################################
+# changelog
+* debian/watch: created.
+
+############################################################
+
+mkdir debian/tests
+vim debian/testes/control
+
+Test-Command: hello-newbie # no caso colocar os binarios ( como eles funcionam )
+
+##########################################################
+# changelog
+* debian/tests/control: created to provide a basic trivial test.
+
+#########################################################
+## para fazer os testes
+contruir com debbuild
+e deopis debi para instalar
+autopkgtest . -- null # para testar.
+
+########################################################
+## analise
+debdiff 01 02 > /tmp/diff
+
+new upstream licensing. Consequently:
+ - changed the licensing from GPL-3 to MIT in upstream and packaging.
+
+########################################################
+# NOVA VERSÃO
+# vamos no git e pegar a segunda a versão ( 0.2 )
+entra dentro da versão anterior no caso 0.1
+
+uupdate ../v0.2.tar.gz # se der erro arruma com -v a versão
+uupdate ../v0.2.tar.gz -v0.2
+
+cd ..
+# agora foi criado a versão 0.2, entre na pasta:
+
+########################################################
+
+snapshot.debian.org # para pesquisas antigas
+
+
+
+#######################################################
+# PATH #### sempre faça o patch depois de debclean
+# SEMPRE APLIQUE ANTES OS PATCHS ANTIGOS
+# quilt push -a
+# PARA REMOVER TODOS
+# quilt pop -a
+################ primeira forma: na pasta upstrem
+############### NUMERO_FIX-nomedopath.patch
+
+quilt new 01_fix-manpage.patch
+
+### var criar em debian/patchs/series pegando o ultimo
+
+quilt add hello-spring.1 # no caso esse é o cara que eu quero fazer o patch
+
+modifique o arquivo do upstream
+
+quilt header -e
+Description: fix a spelling error in manpage.
+Author: Diego Sarzi <diegosarzi@gmail.com>
+Last-Update: 2019-07-18
+
+ls debian/patchs/ # já temos o 01.
+
+# para atualizar o patch
+quilt refresh
+
+# remover todas mudanças
+quilt pop -a
+
+# para ver os patchs aplicados
+quilt top
+
+##### PRONTO TA FEITO!
+
+################## segunda forma:
+################# 
+
+vai no arquivo que precisa mudar e altera:
+vim man.1
+
+dpkg-source --commit 
+# coloque o nome e nuemro do patch, lembrando que os patchs rodam por numeros. em debian/patchs/series
+01_fix-manpage.patch
+
+# coloque a descrição, limpe.. e ok, quilt pop -a e debuild.
+
+################################
+# changlog
+created to fix a spelling error in hello-spring manpage.
+
+
+###########################################################################3
+# BIANRIOS MULTIPLOS
+
+This package provides hello-caesar.
+This package provides hello-spring
+
+Offer a salad (transitional package)
+this file can be safelly removed.
+
+Section: oldlibs
+
+depois do debuild
+vc precisa ver o debian/tmp
+e precisa usar o dh
+
+
+# e no ultimo colocar depends: hello-caesar, hello-spring
