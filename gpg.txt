@@ -43,6 +43,16 @@ gpg --clearsign carta.txt
 # ele vai criar um .asc que vc deve mandar com o .txt para provar que é real.
 
 
+# para receber:
+gpg --keyserver pgp.mit.edu --receive-keys "B3F5 1A27 1261 9C3E CD74  B8E1 7849 4EF7 2375 A66C"
+# para assinar:
+gpg --sign-key "B3F5 1A27 1261 9C3E CD74  B8E1 7849 4EF7 2375 A66C"
+# exportar para enviar por email
+gpg -a --export "B3F5 1A27 1261 9C3E CD74  B8E1 7849 4EF7 2375 A66C" > giovani.pub
+# para enviar ao server
+gpg --keyserver pgp.mit.edu --send-keys DA5FBEB334F9F05C8BFAD94ADC7E3F8975373E4E
+# para listar
+gpg --list-sigs DA5FBEB334F9F05C8BFAD94ADC7E3F8975373E4E
 
 
 chmod O+rw $(tty)

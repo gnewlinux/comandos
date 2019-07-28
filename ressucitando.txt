@@ -1,0 +1,13 @@
+################
+- criar projeto para ressusitar pacotes! # no git
+- analizar a vida do pacote
+- colocar antigas versões no git para analizar os commits
+- usar os orig.
+
+git tag versão
+git rm * -r
+git add *
+git status
+git commit -m ""
+git push
+# ver os anitogs em snapshot.debian.org

@@ -1,0 +1,41 @@
+NON MANTEINER UPLOAD
+
+GERALMENTE TRABALHAMOS ASSIM POR BUGS RC
+# PEGAR PACOTE DOS OUTROS E FAZER UPLOAD
+
+lowmnu ( pagina para outras pessoas mexerem nos seus pacotes )
+# para ver o site só pesquisar lowmnu debian
+- Coloca seu nome e as permissoes.
+
+bug = rc
+se caso rolar um bug a mais de um ano parado resolve
+stand-version
+dhelper version
+
+debian.org/deven # manual de politicas
+#### debian developer reference ( para dm ou dd ou mnu )
+https://ftp-master.debian.org/deferred.html
+se torar o html vc pode ver os dsc
+https://ftp-master.debian.org/deferred
+
+
+versão do nmu sempre é -1.2 no caso ex:
+pacote_1-2.1 ( o .1 é a versao de NMU )
+
+
+deferred debian org ( # fila de atrazo )
+
+# para upar o pacote com 5 dias de atrazo.
+dput -e 5 nomedochanges.
+# para cancelar a fira
+dcut cancel nomedochanges.
+
+#pesquisar só rc
+#debian rc bugs
+https://bugs.debian.org/release-critical/
+
+dch --nmu
+
+nmudiff --no-mutt( para fazer o email template )
+
+

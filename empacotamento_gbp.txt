@@ -1,0 +1,59 @@
+# usar git
+git clone
+git status
+git log
+git rm
+git add
+git commit
+git push
+git checkout
+
+
+gbp import-orig ../axel-20.17.5.tar.gz
+colcoa a versao ( 2.17.5 )
+
+gbp dch # cria o changelog no debian ( beleza )
+
+gbp import-dsc --debsnap pacote
+
+#### para exportar o orig assim podendo usar o debuild
+# gbp export-orig
+
+
+
+
+
+atualziar
+git rm -r *
+cp -a ../versaonova/* .
+git add .
+
+
+# branchs para salsa
+debian/master
+pristine-tar
+upstream
+
+
+
+
+
+git-build-package:
+
+debian/master
+
+
+
+arquivo de conf
+
+~/.gbp.conf
+[DEFAULT]
+
+git-debian-branch=debian/master
+
+# create pristine-tar on import
+pristine-tar = True
+
+[dch]
+# ignore merge commit messages
+git-log = --no-merges

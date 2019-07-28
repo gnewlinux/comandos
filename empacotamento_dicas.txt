@@ -1,0 +1,40 @@
+email para ITA:
+control@bugs.debian.org
+# sem assunto
+# no corpo:
+retitle NUMERODOBUG ITA:keepassx -- Cross Platform Password Manager
+owner NUMERODOBUG !
+
+
+para pegar o dsc completo
+dget -u ....dsc
+
+
+debian-devel-changes # esse irc é para ver oq ta rolando no debian
+
+debdiff pacoteantigo.dsc pacotenovo.dsc
+
+
+VERIFICAR CHANGELOG ( COPYRIGHTS )
+egrep '(@|\[)' changelog
+
+
+# para pesquisar e alterar recursivamente
+find . -type f -exec sed -i s/initalized/initialized/g {} +^C
+
+ITA EXEMPLO!!!!
+MANDE UM EMAIL PARA:
+control@bugs.debian.org
+SEM ASSUNTO COM O CORPO, NUMERO DO BUG DO ORFÃO + O PROGRAMA E DESCRIÇÃO COMO NO BUG:
+retitle 920131 ITA: muttprofile -- utility to choose profiles in Mutt
+owner 920131 !
+
+sort -Vu # para alinhar versoe
+
+para criar com git
+a versao nao existe, então fica 0.0
+o + é pq é acima
+~ abaixo
+git, data de criação + . commit
+ dh_make -f ../hello-destructor-0.0+git20190327.ece8e77.tar.gz -c bsd -p hello-destructor_0.0+git20190327.ece8e77
+s

@@ -1,0 +1,7 @@
+http://eriberto.pro.br/wiki/
+https://ftp-master.debian.org/deferred.html
+https://qa.debian.org/developer.php?email=diegosarzi@gmail.com
+
+snapshot.debian.org
+tracker.debian.org
+wnpp.debian.net
