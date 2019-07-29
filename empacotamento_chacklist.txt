@@ -1,0 +1,22 @@
+* Verificar se há trabalhos em VCS.
+* Verificar se há NMU e emitir ACK com Closes.
+* No debian/copyright, atualizar cadeia de mantenedores.
+* No debian/copyright, atualizar todas as datas e dados.
+* Nos patches, verificar se os cabeçalhos estão completos.
+* Executar debuild duas vezes, pelo menos.
+* Executar o uscan para ver se funciona se há novas versões do programa.
+* Conferir em debian/changelog usando debdiff sobre os .dsc.
+* Usar spell no debian/changelog e no debian/control.
+* Com tree, verificar a estrutura final.
+* Instalar pacote com dpkg -i e verificar os testes com autopkgtest . -- null
+* Caso seja necessário, use o cmoando wrap-and-sort ( para alinamentos )
+* Inpecionar o código fonte para ver se há arquivos importantes não utilizados.
+* Verificar cada item do tracker ( página inicial ).
+* Verificar os logs de construção no tracker.
+* Verificar se há bugs abertos ( Debian e Ubuntu ).
+* Se for o caso, atualizar data com dch -r.
+* Verificar novamente o conteúdo de cada arquivo em debian/.
+* Testar com cowbuilder.
+* Testar o funcionamento do programa.
+* Atualizar o GIT.
+* Verificar o conteúdo do .changes.
